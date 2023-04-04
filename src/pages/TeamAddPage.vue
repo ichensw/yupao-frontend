@@ -91,7 +91,7 @@ const initFormData = {
   "expireTime": null as Date | null,
   "maxNum": 3,
   "password": "",
-  "status": 0,
+  "status": "0",
 }
 
 const currentDate = ref([]);
