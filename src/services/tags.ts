@@ -1,5 +1,5 @@
 import request from "../plugins/request";
-import {UserType} from "../modules/user";
+import {UserType} from "../models/user";
 
 const tagsApi = {
     searchUser: '/user/search/tags'

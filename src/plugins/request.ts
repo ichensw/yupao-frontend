@@ -1,15 +1,8 @@
 import axios from 'axios';
-import qs from "qs";
-import {useRouter} from "vue-router";
 
 // 创建实例时配置默认值
 const request = axios.create({
     baseURL: 'http://localhost:8080/api',
-    paramsSerializer: {
-        serialize:function(params) {
-            return qs.stringify(params, { arrayFormat: 'repeat' })
-        }
-    }
 });
 
 // true：向后台发送请求时，携带上cookie凭证
@@ -26,12 +19,16 @@ request.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 request.interceptors.response.use(function (response) {
-    // 2xx 范围内的状态码都会触发该函数。
-    // 对响应数据做点什么
+    console.log('我收到你的响应啦', response)
+    // 未登录则跳转到登录页
+    if (response?.data?.code === 40100) {
+        const redirectUrl = window.location.href;
+        window.location.href = `/user/login?redirect=${redirectUrl}`;
+    }
+    // Do something with response data
     return response.data;
 }, function (error) {
-    // 超出 2xx 范围的状态码都会触发该函数。
-    // 对响应错误做点什么
+    // Do something with response error
     return Promise.reject(error);
 });
 

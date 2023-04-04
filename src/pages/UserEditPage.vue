@@ -20,9 +20,10 @@
 
 <script setup>
 import {useRoute, useRouter} from "vue-router";
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import {getCurrentUser, updateUser} from "../services/user.ts";
 import {showFailToast, showSuccessToast} from "vant";
+
 const route = useRoute()
 const router = useRouter()
 const { editKey, editName, currentValue } = route.query

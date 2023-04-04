@@ -29,7 +29,6 @@ import {onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
 import {getCurrentUser} from "../services/user";
 import {showFailToast, showSuccessToast} from "vant";
-import {getCurrentUserState, setCurrentUserState} from "../states/user";
 import moment from "moment";
 
 const user = ref();

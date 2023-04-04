@@ -26,14 +26,14 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 
-import {useRouter} from "vue-router";
+import {useRoute} from "vue-router";
 import {ref} from "vue";
 import {userLogin} from "../services/user.ts";
 import {showFailToast, showSuccessToast} from "vant";
 
-const router = useRouter();
+const route = useRoute();
 
 const userAccount = ref('');
 const userPassword = ref('');
@@ -45,7 +45,8 @@ const onSubmit = async () => {
 
   if (res.code === 0 && res.data) {
     showSuccessToast("登陆成功")
-    await router.replace('/')
+    // 跳转到之前的页面
+    window.location.href = route.query?.redirect as string ?? '/';
   } else {
     showFailToast("登录失败")
   }

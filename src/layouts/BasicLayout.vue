@@ -1,46 +1,56 @@
 <template>
   <van-nav-bar
-      title="伙伴匹配系统"
+      :title="title"
       left-arrow
       @click-left="onClickLeft"
-      @click-right="onClickRight">
+      @click-right="onClickRight"
+  >
     <template #right>
       <van-icon name="search" size="18"/>
     </template>
   </van-nav-bar>
-
   <div id="content">
     <router-view/>
   </div>
-
-  <van-tabbar v-model="active" @change="onChange" route>
-    <van-tabbar-item to="/" icon="home-o" replace name="index">主页</van-tabbar-item>
-    <van-tabbar-item to="/team" icon="search" replace  name="team">队伍</van-tabbar-item>
-    <van-tabbar-item to="/user" icon="friends-o" replace  name="user">个人</van-tabbar-item>
+  <van-tabbar route @change="onChange">
+    <van-tabbar-item to="/" icon="home-o" name="index">主页</van-tabbar-item>
+    <van-tabbar-item to="/team" icon="search" name="team">队伍</van-tabbar-item>
+    <van-tabbar-item to="/user" icon="friends-o" name="user">个人</van-tabbar-item>
   </van-tabbar>
-
-
 </template>
 
-<script setup>
-import {ref} from "vue";
-import {showToast} from "vant";
+<script setup lang="ts">
 import {useRouter} from "vue-router";
+import {ref} from "vue";
+import routes from "../config/router";
 
-const router = useRouter()
-const onClickLeft = () => router.back();
-const onClickRight = () => router.push({ path: '/search'});
+const router = useRouter();
+const DEFAULT_TITLE = '伙伴匹配';
+const title = ref(DEFAULT_TITLE);
 
-const active = ref('index');
-const onChange = (index) => showToast({
-  message: `底部展示 ${index}`,
-  position: 'bottom',
-});
+/**
+ * 根据路由切换标题
+ */
+router.beforeEach((to, from) => {
+  const toPath = to.path;
+  const route = routes.find((route) => {
+    return toPath == route.path;
+  })
+  title.value = route?.title ?? DEFAULT_TITLE;
+})
+
+const onClickLeft = () => {
+  router.back();
+};
+
+const onClickRight = () => {
+  router.push('/search')
+};
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 #content {
-  margin-bottom: 20%;
+  padding-bottom: 50px;
 }
 </style>
