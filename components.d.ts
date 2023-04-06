@@ -7,7 +7,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TeamCardList: typeof import('./src/components/TeamCardList.vue')['default']
@@ -17,10 +16,7 @@ declare module '@vue/runtime-core' {
     VanCell: typeof import('vant/es')['Cell']
     VanCellGroup: typeof import('vant/es')['CellGroup']
     VanCol: typeof import('vant/es')['Col']
-    VanCollapse: typeof import('vant/es')['Collapse']
-    VanCollapseItem: typeof import('vant/es')['CollapseItem']
     VanDatePicker: typeof import('vant/es')['DatePicker']
-    VanDatetimePicker: typeof import('vant/es')['DatetimePicker']
     VanDialog: typeof import('vant/es')['Dialog']
     VanDivider: typeof import('vant/es')['Divider']
     VanEmpty: typeof import('vant/es')['Empty']
