@@ -2,7 +2,7 @@
  * 用户类别
  */
 export type UserType = {
-    id: number;
+    userId: number;
     username: string;
     userAccount: string;
     avatarUrl?: string;

@@ -5,12 +5,14 @@ const tagsApi = {
     searchUser: '/user/search/tags'
 }
 
-export function SearchUserByTags(parameter: UserType) {
+export function SearchUserByTags(parameter: UserType, pageSize: number, pageNum: number) {
     return request({
         url: tagsApi.searchUser,
         method: 'get',
         params: {
-            tagNameList: parameter
+            tagNameList: parameter,
+            pageSize: pageSize,
+            pageNum: pageNum
         }
     })
 }

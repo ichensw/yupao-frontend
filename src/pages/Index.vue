@@ -1,15 +1,23 @@
 <template>
   <van-cell center title="心动模式">
     <template #right-icon>
-      <van-switch v-model="isMatchMode" size="24" />
+      <van-switch v-model="isMatchMode" size="24"/>
     </template>
   </van-cell>
-  <user-card-list :user-list="userList" :loading="loading"/>
-  <van-empty v-if="!userList || userList.length < 1" description="数据为空"/>
+  <van-list
+      v-model:loading="continueLoading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="loadData"
+  >
+    <user-card-list v-for="user in userList" :user="user" :key="user.userId" :loading="loading"/>
+  </van-list>
+  <van-back-top style="margin-bottom: 10%; "/>
+  <van-empty v-show="!userList.length" description="数据为空"/>
 </template>
 
 <script setup lang="ts">
-import {ref, watchEffect} from 'vue';
+import {ref} from 'vue';
 import request from "../plugins/request";
 import {showFailToast} from "vant";
 import UserCardList from "../components/UserCardList.vue";
@@ -18,14 +26,18 @@ import {UserType} from "../models/user";
 const isMatchMode = ref<boolean>(false);
 
 const userList = ref([]);
-const loading = ref(true);
+const loading = ref(false);
+const continueLoading = ref(false);
+const finished = ref(false);
+const pageInfo = {pageSize: 8, pageNum: 1}
 
 /**
  * 加载数据
  */
 const loadData = async () => {
   let userListData;
-  loading.value = true;
+  continueLoading.value = true;
+  // loading.value = true;
   // 心动模式，根据标签匹配用户
   if (isMatchMode.value) {
     const num = 10;
@@ -46,16 +58,14 @@ const loadData = async () => {
     // 普通模式，直接分页查询用户
     userListData = await request.get('/user/recommend', {
       params: {
-        pageSize: 8,
-        pageNum: 1,
+        pageSize: pageInfo.pageSize,
+        pageNum: pageInfo.pageNum++,
       },
     })
         .then(function (response) {
-          console.log('/user/recommend succeed', response);
           return response?.data?.records;
         })
         .catch(function (error) {
-          console.error('/user/recommend error', error);
           showFailToast('请求失败');
         })
   }
@@ -64,15 +74,13 @@ const loadData = async () => {
       if (user.tags) {
         user.tags = JSON.parse(user.tags);
       }
+      userList.value.push(user);
     })
-    userList.value = userListData;
-  }
-  loading.value = false;
-}
 
-watchEffect(() => {
-  loadData();
-})
+  }
+  continueLoading.value = false;
+  // loading.value = false;
+}
 
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <van-skeleton title avatar :row="3" :loading="props.loading" v-for="user in props.userList">
+  <van-skeleton title avatar :row="3" :loading="loading" >
     <van-card
         :desc="user.profile"
         :title="`${user.username}`"
@@ -19,17 +19,21 @@
 
 <script setup lang="ts">
 import {UserType} from "../models/user";
+import {onMounted} from "vue";
 
 interface UserCardListProps {
+  user: UserType,
   loading: boolean;
-  userList: UserType[];
 }
-
+// const props = defineProps<{ user: object, loading: boolean}>()
 const props = withDefaults(defineProps<UserCardListProps>(), {
-  loading: true,
-  // @ts-ignore
-  userList: [] as UserType[],
+  user: undefined,
+  loading: true
 });
+
+onMounted(async () => {
+  console.log(props.user)
+})
 
 </script>
 
