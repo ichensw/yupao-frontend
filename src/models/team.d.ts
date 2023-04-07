@@ -4,7 +4,7 @@ import {UserType} from "./user";
  * 队伍类别
  */
 export type TeamType = {
-    id: number;
+    teamId: number;
     name: string;
     description: string;
     expireTime?: Date;
@@ -15,5 +15,6 @@ export type TeamType = {
     createTime: Date;
     updateTime: Date;
     createUser?: UserType;
+    hasJoin?: boolean;
     hasJoinNum?: number;
 };

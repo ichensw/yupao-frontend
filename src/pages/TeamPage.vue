@@ -1,13 +1,13 @@
 <template>
   <div id="teamPage">
     <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch" />
+    <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus" @click="toAddTeam" style="width: 90%; margin: 0 auto" block/>
+    <div style="margin-bottom: 10px" />
     <van-tabs v-model:active="active" @change="onTabChange">
       <van-tab title="公开" name="public" />
       <van-tab title="加密" name="private" />
     </van-tabs>
-    <div style="margin-bottom: 16px" />
-    <van-button class="add-button" type="primary" icon="plus" @click="toAddTeam" />
-    <team-card-list :teamList="teamList" />
+    <team-card-list :teamList="teamList" @refreshTeamList="listTeam" />
     <van-empty v-if="teamList?.length < 1" description="数据为空"/>
   </div>
 </template>
@@ -63,6 +63,7 @@ const listTeam = async (val = '', status = 0) => {
   });
   if (res?.code === 0) {
     teamList.value = res.data;
+    console.log("teamList.value: ", teamList.value);
   } else {
     showFailToast('加载队伍失败，请刷新重试');
   }

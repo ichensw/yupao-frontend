@@ -27,19 +27,22 @@
         </div>
       </template>
       <template #footer>
-        <van-button size="small" type="primary" v-if="team.userId !== currentUser?.id && !team.hasJoin" plain
+        <van-button size="small" type="primary" v-if="team.userId !== currentUser?.userId && !team.hasJoin && team.maxNum > team.hasJoinNum" plain
                     @click="preJoinTeam(team)">
           加入队伍
         </van-button>
-        <van-button v-if="team.userId === currentUser?.id" size="small" plain
-                    @click="doUpdateTeam(team.id)">更新队伍
+        <van-button size="small" type="danger" disabled v-if="team.userId !== currentUser?.userId && !team.hasJoin && team.maxNum <= team.hasJoinNum" plain>
+          队伍已满员
+        </van-button>
+        <van-button v-if="team.userId === currentUser?.userId" size="small" plain
+                    @click="doUpdateTeam(team.teamId)">更新队伍
         </van-button>
         <!-- 仅加入队伍可见 -->
-        <van-button v-if="team.userId !== currentUser?.id && team.hasJoin" size="small" plain
-                    @click="doQuitTeam(team.id)">退出队伍
+        <van-button v-if="team.userId !== currentUser?.userId && team.hasJoin" size="small" plain
+                    @click="doQuitTeam(team.teamId)">退出队伍
         </van-button>
-        <van-button v-if="team.userId === currentUser?.id" size="small" type="danger" plain
-                    @click="doDeleteTeam(team.id)">解散队伍
+        <van-button v-if="team.userId === currentUser?.userId" size="small" type="danger" plain
+                    @click="doDeleteTeam(team.teamId)">解散队伍
         </van-button>
       </template>
     </van-card>
@@ -77,12 +80,14 @@ const currentUser = ref();
 
 const router = useRouter();
 
+const refreshTeamListEmit = defineEmits(['refreshTeamList'])
+
 onMounted(async () => {
   currentUser.value = await getCurrentUser();
 })
 
 const preJoinTeam = (team: TeamType) => {
-  joinTeamId.value = team.id;
+  joinTeamId.value = team.teamId;
   if (team.status === 0) {
     doJoinTeam()
   } else {
@@ -106,7 +111,8 @@ const doJoinTeam = async () => {
     teamId: joinTeamId.value,
     password: password.value
   });
-  if (res?.code === 0) {
+  if (res?.code === 0 && res?.data) {
+    refreshTeamListEmit('refreshTeamList');
     showSuccessToast('加入成功');
     doJoinCancel();
   } else {
@@ -136,7 +142,8 @@ const doQuitTeam = async (id: number) => {
     teamId: id
   });
   if (res?.code === 0) {
-    showSuccessToast('操作成功');
+    refreshTeamListEmit('refreshTeamList');
+    showSuccessToast('退出成功');
   } else {
     showFailToast('操作失败' + (res.description ? `，${res.description}` : ''));
   }
@@ -148,7 +155,7 @@ const doQuitTeam = async (id: number) => {
  */
 const doDeleteTeam = async (id: number) => {
   const res = await request.post('/team/delete', {
-    id,
+    id
   });
   if (res?.code === 0) {
     showSuccessToast('操作成功');

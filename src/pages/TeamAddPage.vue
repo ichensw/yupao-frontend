@@ -79,7 +79,7 @@
 import {useRouter} from "vue-router";
 import {ref} from "vue";
 import request from "../plugins/request";
-import {showSuccessToast} from "vant";
+import {showFailToast, showSuccessToast} from "vant";
 
 const router = useRouter();
 // 展示日期选择器
@@ -127,7 +127,8 @@ const onSubmit = async () => {
       replace: true,
     });
   } else {
-    showSuccessToast('添加失败');
+    console.log(res?.description, res?.description.length)
+    showFailToast(res?.description.length > 0 ? res?.description : '添加失败');
   }
 }
 </script>

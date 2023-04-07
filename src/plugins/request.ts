@@ -1,8 +1,14 @@
 import axios from 'axios';
+import qs from "qs";
 
 // 创建实例时配置默认值
 const request = axios.create({
     baseURL: 'http://localhost:8080/api',
+    paramsSerializer: {
+        serialize:function(params) {
+            return qs.stringify(params, { arrayFormat: 'repeat' })
+        }
+    }
 });
 
 // true：向后台发送请求时，携带上cookie凭证

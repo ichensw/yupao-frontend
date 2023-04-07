@@ -22,7 +22,7 @@
             readonly
             name="datetimePicker"
             label="过期时间"
-            :placeholder="addTeamData.expireTime ?? '点击选择过期时间'"
+            :placeholder="expireTimeStr ?? '点击选择过期时间'"
             @click="showPicker = true"
         />
         <van-popup v-model:show="showPicker" position="bottom">
@@ -75,6 +75,7 @@ import {useRoute, useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
 import request from "../plugins/request";
 import {showFailToast, showSuccessToast} from "vant";
+import moment from "moment";
 
 const router = useRouter();
 const route = useRoute();
@@ -86,6 +87,7 @@ const minDate = new Date();
 
 const currentDate = ref([]);
 const currentTime = ref([]);
+const expireTimeStr = ref('');
 
 const id = route.query.id;
 
@@ -94,7 +96,7 @@ const addTeamData = ref({})
 
 // 获取之前的队伍信息
 onMounted(async () => {
-  if (id <= 0) {
+  if (Number(id) <= 0) {
     showFailToast('加载队伍失败');
     return;
   }
@@ -104,11 +106,21 @@ onMounted(async () => {
     }
   });
   if (res?.code === 0) {
+    const { status, expireTime } = res.data;
     addTeamData.value = res.data;
+    addTeamData.value.status = status + '';
+    expireTimeStr.value = moment(expireTime).format("YYYY/MM/DD HH:mm");
   } else {
     showFailToast('加载队伍失败，请刷新重试');
   }}
 )
+
+const onConfirm = async () => {
+  showPicker.value = false;
+  let dateTime = currentDate.value.join('/') + ' ' + currentTime.value.join(':')
+  addTeamData.value.expireTime = new Date(dateTime)
+  expireTimeStr.value = dateTime
+}
 
 // 提交
 const onSubmit = async () => {
@@ -117,7 +129,7 @@ const onSubmit = async () => {
     status: Number(addTeamData.value.status)
   }
   // todo 前端参数校验
-  const res = await request.post("/team/update", postData);
+  const res = await request.put("/team/update", postData);
   if (res?.code === 0 && res.data){
     showSuccessToast('更新成功');
     router.push({

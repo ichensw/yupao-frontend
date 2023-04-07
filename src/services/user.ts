@@ -6,6 +6,7 @@ const userApi = {
     currentUser: '/user/current',
     updateUser: '/user/update',
     userLogin: '/user/login',
+    userLogout: '/user/logout',
 }
 
 export function userLogin(parameter: UserType) {
@@ -13,6 +14,13 @@ export function userLogin(parameter: UserType) {
         url: userApi.userLogin,
         method: 'post',
         data: parameter
+    })
+}
+
+export function userLogout() {
+    return request({
+        url: userApi.userLogout,
+        method: 'post'
     })
 }
 
