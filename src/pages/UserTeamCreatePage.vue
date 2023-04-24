@@ -1,7 +1,9 @@
 <template>
   <div id="teamPage">
-    <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch" />
-    <van-button type="primary" @click="doJoinTeam">创建队伍</van-button>
+      <van-search v-model="searchText" placeholder="搜索队伍" @search="listTeam"/>
+<!--    <van-button type="primary" @click="doJoinTeam">创建队伍</van-button>-->
+    <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus"
+                @click="toAddTeam" style="width: 90%; margin: 0 auto" block/>
     <team-card-list :teamList="teamList" />
     <van-empty v-if="teamList?.length < 1" description="数据为空"/>
   </div>
@@ -18,8 +20,8 @@ import {showFailToast, Toast} from "vant";
 const router = useRouter();
 const searchText = ref('');
 
-// 跳转到加入队伍页
-const doJoinTeam = () => {
+// 跳转到创建队伍页
+const toAddTeam = () => {
   router.push({
     path: "/team/add"
   })
@@ -52,9 +54,6 @@ onMounted( () => {
   listTeam();
 })
 
-const onSearch = (val) => {
-  listTeam(val);
-};
 
 </script>
 

@@ -7,11 +7,20 @@ const userApi = {
     updateUser: '/user/update',
     userLogin: '/user/login',
     userLogout: '/user/logout',
+    imageUpload: '/oss/upload'
 }
 
 export function userLogin(parameter: UserType) {
     return request({
         url: userApi.userLogin,
+        method: 'post',
+        data: parameter
+    })
+}
+
+export function imageUpload(parameter: any) {
+    return request({
+        url: userApi.imageUpload,
         method: 'post',
         data: parameter
     })

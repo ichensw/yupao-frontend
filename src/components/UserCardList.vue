@@ -1,9 +1,9 @@
 <template>
   <van-skeleton title avatar :row="3" :loading="loading" >
     <van-card
-        :desc="user.profile"
+        :desc="`${user.profile}`"
         :title="`${user.username}`"
-        :thumb="user.avatarUrl"
+        :thumb="`${user.avatarUrl}`"
     >
       <template #tags>
         <van-tag plain type="danger" v-for="tag in user.tags" style="margin-right: 8px; margin-top: 8px">
@@ -26,14 +26,10 @@ interface UserCardListProps {
   loading: boolean;
 }
 // const props = defineProps<{ user: object, loading: boolean}>()
-const props = withDefaults(defineProps<UserCardListProps>(), {
+withDefaults(defineProps<UserCardListProps>(), {
   user: undefined,
   loading: true
 });
-
-onMounted(async () => {
-  console.log(props.user)
-})
 
 </script>
 

@@ -47,7 +47,6 @@ const loadData = async () => {
       },
     })
         .then(function (response) {
-          console.log('/user/match succeed', response);
           return response?.data;
         })
         .catch(function (error) {
@@ -69,6 +68,7 @@ const loadData = async () => {
           showFailToast('请求失败');
         })
   }
+  // 填充数据
   if (userListData) {
     userListData.forEach((user: UserType) => {
       if (user.tags) {

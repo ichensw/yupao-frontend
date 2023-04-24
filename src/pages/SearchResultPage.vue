@@ -2,14 +2,12 @@
   <van-list
       v-model:loading="continueLoading"
       :finished="finished"
-      finished-text="没有更多了"
+      finished-text="暂无该标签的小伙伴"
       @load="loadData"
   >
     <user-card-list v-for="user in userList" :user="user" :key="user.userId" :loading="loading"/>
   </van-list>
-  <van-back-top />
   <van-back-top style="margin-bottom: 10%"/>
-  <van-empty v-if="!userList || userList.length < 1" description="暂无该标签的小伙伴"/>
 </template>
 
 <script setup>
@@ -20,22 +18,32 @@ import {SearchUserByTags} from "../services/tags.ts";
 import UserCardList from "../components/UserCardList.vue";
 
 const route = useRoute();
+/** 用户列表 */
 const userList = ref([])
+/** 继续加载标识 */
 const continueLoading = ref(false);
+/** 加载标识 */
 const loading = ref(false);
+/** 加载完成标识 */
 const finished = ref(false);
+/** 路由参数：标签 */
 const {tags} = route.query
-let pageInfo = { pageSize: 8, pageNum: 1};
+/** 分页参数 */
+let pageInfo = { pageSize: 10, pageNum: 1};
 
 const loadData = async () => {
   continueLoading.value = true;
+
   const userListData = await SearchUserByTags(tags, pageInfo.pageSize, pageInfo.pageNum++)
       .then((response) => {
         console.log('/user/search/tags succeed', response);
+        if (response?.data?.records.length < 1) {
+          finished.value = true
+        }
         return response?.data?.records;
       })
       .catch(function (error) {
-        console.log('/user/search/tags succeed', error);
+        console.log('/user/search/tags error', error);
         showFailToast("请求失败")
       });
   if (userListData) {

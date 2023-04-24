@@ -16,5 +16,13 @@ export type TeamType = {
     updateTime: Date;
     createUser?: UserType;
     hasJoin?: boolean;
-    hasJoinNum?: number;
+    joinNum?: number;
+};
+
+/**
+ * 加入队伍类别
+ */
+export type JoinTeamType = {
+    teamId: number;
+    password?: string;
 };
