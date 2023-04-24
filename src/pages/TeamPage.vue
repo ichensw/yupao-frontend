@@ -33,6 +33,10 @@ const activeOption = [
 ];
 const searchText = ref("")
 
+onMounted(() => {
+
+})
+
 /**
  * 切换查询状态
  * @param name
@@ -57,14 +61,14 @@ const teamList = ref([]);
  * @returns {Promise<void>}
  */
 const listTeam = async (status = 0) => {
-    const res = await request.get("/team/list", {
+    await request.get("/team/list", {
         params: {
             pageNum: 1,
             status,
         },
     }).then(res => {
         if (res?.code === 0) {
-            teamList.value = res.data;
+            teamList.value = res.data ? res.data : [];
         } else {
             showFailToast(res.message);
         }
