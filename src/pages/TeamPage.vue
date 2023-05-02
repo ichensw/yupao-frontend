@@ -1,16 +1,17 @@
 <template>
     <div id="teamPage">
         <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
-        <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus"
-                    @click="toAddTeam" style="width: 90%; margin: 0 auto" block/>
-        <div style="margin-bottom: 10px"/>
-        <van-dropdown-menu>
-            <van-dropdown-item v-model="active" :options="activeOption" @change="onTabChange"/>
-        </van-dropdown-menu>
-<!--        <van-tabs v-model:active="active" @change="onTabChange">-->
-<!--          <van-tab title="公开" name="0" />-->
-<!--          <van-tab title="加密" name="2" />-->
-<!--        </van-tabs>-->
+        <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus" round
+                    @click="toAddTeam" block/>
+        <div style="margin-bottom: -5px"/>
+<!--        <van-dropdown-menu>-->
+<!--            <van-dropdown-item v-model="active" :options="activeOption" @change="onTabChange"/>-->
+<!--        </van-dropdown-menu>-->
+        <van-tabs v-model:active="active" @change="onTabChange">
+          <van-tab title="公开" name="0" />
+          <van-tab title="加密" name="2" />
+          <van-tab title="私有" name="1" />
+        </van-tabs>
         <team-card-list :teamList="teamList" @refreshTeamList="listTeam"/>
         <van-empty v-if="teamList?.length < 1" description="数据为空"/>
     </div>
@@ -89,7 +90,4 @@ const onSearch = (val) => {
 </script>
 
 <style scoped>
-#teamPage {
-
-}
 </style>

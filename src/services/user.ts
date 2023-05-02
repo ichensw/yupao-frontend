@@ -7,7 +7,30 @@ const userApi = {
     updateUser: '/user/update',
     userLogin: '/user/login',
     userLogout: '/user/logout',
-    imageUpload: '/oss/upload'
+    imageUpload: '/oss/upload',
+    userRecommend: '/user/recommend',
+    userMatch: '/user/match',
+}
+
+export function userRecommend(pageSize: number, pageNum: number) {
+    return request({
+        url: userApi.userRecommend,
+        method: 'get',
+        params: {
+            pageSize,
+            pageNum
+        }
+    })
+}
+
+export function userMatch(num: number) {
+    return request({
+        url: userApi.userMatch,
+        method: 'get',
+        params: {
+            num
+        }
+    })
 }
 
 export function userLogin(parameter: UserType) {
