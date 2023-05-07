@@ -13,7 +13,7 @@
             </template>
             <template #bottom>
                 <div>
-                    {{ `队伍人数: ${team.joinNum}/${team.maxNum}` }}
+                    {{ `车队人数: ${team.joinNum}/${team.maxNum}` }}
                 </div>
                 <div v-if="team.expireTime">
                     <!--          TODO 优化格式化插件的使用方式，重复使用很麻烦-->
@@ -28,22 +28,22 @@
                             v-if="team.userId !== currentUser?.userId && !team.hasJoin && team.maxNum > team.joinNum"
                             plain
                             @click="preJoinTeam(team)">
-                    加入队伍
+                    加入车队
                 </van-button>
                 <van-button size="small" type="danger" disabled
                             v-if="team.userId !== currentUser?.userId && !team.hasJoin && team.maxNum <= team.joinNum"
                             plain>
-                    队伍已满员
+                    车队已满员
                 </van-button>
                 <van-button v-if="team.userId === currentUser?.userId" size="small" plain
-                            @click="doUpdateTeam(team.teamId)">更新队伍
+                            @click="doUpdateTeam(team.teamId)">更新车队
                 </van-button>
-                <!-- 仅加入队伍可见 -->
+                <!-- 仅加入车队可见 -->
                 <van-button v-if="team.userId !== currentUser?.userId && team.hasJoin" size="small" plain
-                            @click="doQuitTeam(team.teamId)">退出队伍
+                            @click="doQuitTeam(team.teamId)">退出车队
                 </van-button>
                 <van-button v-if="team.userId === currentUser?.userId" size="small" type="danger" plain
-                            @click="doDeleteTeam(team.teamId)">解散队伍
+                            @click="doDeleteTeam(team.teamId)">解散车队
                 </van-button>
             </template>
         </van-card>
@@ -69,11 +69,13 @@ import {joinTeam} from "../services/team";
 
 interface TeamCardListProps {
     teamList: TeamType[];
+    status: string;
 }
 
 const props = withDefaults(defineProps<TeamCardListProps>(), {
     // @ts-ignore
     teamList: [] as TeamType[],
+    status: '0' as string,
 });
 
 const showPasswordDialog = ref(false);
@@ -105,9 +107,10 @@ const doJoinCancel = () => {
 }
 
 /**
- * 加入队伍
+ * 加入车队
  */
 const doJoinTeam = async () => {
+    console.log()
     if (!joinTeamId.value) {
         return;
     }
@@ -116,7 +119,7 @@ const doJoinTeam = async () => {
         password: password.value
     }).then(res => {
         if (res?.code === 0 && res?.data) {
-            refreshTeamListEmit('refreshTeamList');
+            refreshTeamListEmit('refreshTeamList', props.status);
             showSuccessToast('加入成功');
             doJoinCancel();
         } else {
@@ -129,7 +132,7 @@ const doJoinTeam = async () => {
 }
 
 /**
- * 跳转至更新队伍页
+ * 跳转至更新车队页
  * @param id
  */
 const doUpdateTeam = (id: number) => {
@@ -142,7 +145,7 @@ const doUpdateTeam = (id: number) => {
 }
 
 /**
- * 退出队伍
+ * 退出车队
  * @param id
  */
 const doQuitTeam = async (id: number) => {
@@ -150,7 +153,7 @@ const doQuitTeam = async (id: number) => {
         teamId: id
     });
     if (res?.code === 0) {
-        refreshTeamListEmit('refreshTeamList');
+        refreshTeamListEmit('refreshTeamList', props.status);
         showSuccessToast('退出成功');
     } else {
         showFailToast('操作失败' + (res.description ? `，${res.description}` : ''));
@@ -158,7 +161,7 @@ const doQuitTeam = async (id: number) => {
 }
 
 /**
- * 解散队伍
+ * 解散车队
  * @param id
  */
 const doDeleteTeam = async (id: number) => {

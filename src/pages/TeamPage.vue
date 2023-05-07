@@ -1,6 +1,6 @@
 <template>
     <div id="teamPage">
-        <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
+        <van-search v-model="searchText" placeholder="搜索车队" @search="onSearch"/>
         <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus" round
                     @click="toAddTeam" block/>
         <div style="margin-bottom: -5px"/>
@@ -12,7 +12,7 @@
           <van-tab title="加密" name="2" />
           <van-tab title="私有" name="1" />
         </van-tabs>
-        <team-card-list :teamList="teamList" @refreshTeamList="listTeam"/>
+        <team-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam"/>
         <van-empty v-if="teamList?.length < 1" description="数据为空"/>
     </div>
 </template>
@@ -46,7 +46,7 @@ const onTabChange = () => {
     listTeam(active.value);
 }
 
-// 跳转到创建队伍页
+// 跳转到创建车队页
 const toAddTeam = () => {
     router.push({
         path: "/team/add"
@@ -56,7 +56,7 @@ const toAddTeam = () => {
 const teamList = ref([]);
 
 /**
- * 搜索队伍
+ * 搜索车队
  * @param val
  * @param status
  * @returns {Promise<void>}
@@ -74,7 +74,7 @@ const listTeam = async (status = 0) => {
             showFailToast(res.message);
         }
     }).catch(error => {
-        showFailToast('加载队伍失败，请刷新重试');
+        showFailToast('加载车队失败，请刷新重试');
     });
 }
 

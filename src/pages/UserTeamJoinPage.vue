@@ -1,6 +1,6 @@
 <template>
     <div id="teamPage">
-        <van-search v-model="searchText" placeholder="搜索队伍" @search="listTeam"/>
+        <van-search v-model="searchText" placeholder="搜索车队" @search="listTeam"/>
         <team-card-list :teamList="teamList"/>
         <van-empty v-if="teamList?.length < 1" description="数据为空"/>
     </div>
@@ -26,7 +26,7 @@ onMounted(() => {
 })
 
 /**
- * 搜索队伍
+ * 搜索车队
  * @param searchText
  * @returns {Promise<void>}
  */
@@ -41,7 +41,7 @@ const listTeam = async (searchText = '') => {
         }
     }).catch(error => {
         console.log(error)
-        showFailToast('加载队伍失败，请刷新重试');
+        showFailToast('加载车队失败，请刷新重试');
     });
 }
 

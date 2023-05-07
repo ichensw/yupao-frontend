@@ -12,8 +12,8 @@
     <van-cell title="邮箱" v-show="user.email" :value="user.email"/>
     <van-cell title="注册时间" :value="moment(user.createTime).format('YYYY-MM-DD HH:mm:ss')"/>
     <van-cell title="修改信息" is-link to="/user/update" />
-    <van-cell title="我创建的队伍" is-link to="/user/team/create" />
-    <van-cell title="我加入的队伍" is-link to="/user/team/join" />
+    <van-cell title="我创建的车队" is-link to="/user/team/create" />
+    <van-cell title="我加入的车队" is-link to="/user/team/join" />
     <van-button color="linear-gradient(to right, #ff6034, #ee0a24)"  @click="exitLogin" style="width: 90%; margin: 0 auto" block>
       退出登录
     </van-button>

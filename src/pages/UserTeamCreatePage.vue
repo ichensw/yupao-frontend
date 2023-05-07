@@ -1,9 +1,9 @@
 <template>
   <div id="teamPage">
-      <van-search v-model="searchText" placeholder="搜索队伍" @search="listTeam"/>
-<!--    <van-button type="primary" @click="doJoinTeam">创建队伍</van-button>-->
-    <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus"
-                @click="toAddTeam" style="width: 90%; margin: 0 auto" block/>
+      <van-search v-model="searchText" placeholder="搜索车队" @search="listTeam"/>
+<!--    <van-button type="primary" @click="doJoinTeam">创建车队</van-button>-->
+      <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus" round
+                  @click="toAddTeam" block/>
     <team-card-list :teamList="teamList" />
     <van-empty v-if="teamList?.length < 1" description="数据为空"/>
   </div>
@@ -20,7 +20,7 @@ import {showFailToast, Toast} from "vant";
 const router = useRouter();
 const searchText = ref('');
 
-// 跳转到创建队伍页
+// 跳转到创建车队页
 const toAddTeam = () => {
   router.push({
     path: "/team/add"
@@ -30,7 +30,7 @@ const toAddTeam = () => {
 const teamList = ref([]);
 
 /**
- * 搜索队伍
+ * 搜索车队
  * @param val
  * @returns {Promise<void>}
  */
@@ -44,7 +44,7 @@ const listTeam = async (val = '') => {
   if (res?.code === 0) {
     teamList.value = res.data;
   } else {
-    showFailToast('加载队伍失败，请刷新重试');
+    showFailToast('加载车队失败，请刷新重试');
   }
 }
 

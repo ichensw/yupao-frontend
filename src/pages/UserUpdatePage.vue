@@ -6,7 +6,9 @@
                         round
                         height="3rem"
                         :src="user.avatarUrl"
-                />
+                >
+                  <template v-slot:error>加载失败</template>
+                </van-image>
         </van-uploader>
         </van-cell>
 

@@ -5,17 +5,17 @@
         <van-field
             v-model="addTeamData.name"
             name="name"
-            label="队伍名"
-            placeholder="请输入队伍名"
-            :rules="[{ required: true, message: '请输入队伍名' }]"
+            label="车队名"
+            placeholder="请输入车队名"
+            :rules="[{ required: true, message: '请输入车队名' }]"
         />
         <van-field
             v-model="addTeamData.description"
             rows="4"
             autosize
-            label="队伍描述"
+            label="车队描述"
             type="textarea"
-            placeholder="请输入队伍描述"
+            placeholder="请输入车队描述"
         />
         <van-field
             is-link
@@ -46,7 +46,7 @@
             <van-stepper v-model="addTeamData.maxNum" max="10" min="3"/>
           </template>
         </van-field>
-        <van-field name="radio" label="队伍状态">
+        <van-field name="radio" label="车队状态">
           <template #input>
             <van-radio-group v-model="addTeamData.status" direction="horizontal">
               <van-radio name="0">公开</van-radio>
@@ -61,7 +61,7 @@
             type="password"
             name="password"
             label="密码"
-            placeholder="请输入队伍密码"
+            placeholder="请输入车队密码"
             :rules="[{ required: true, message: '请填写密码' }]"
         />
       </van-cell-group>
