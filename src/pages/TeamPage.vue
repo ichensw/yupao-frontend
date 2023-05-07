@@ -1,20 +1,20 @@
 <template>
-    <div id="teamPage">
-        <van-search v-model="searchText" placeholder="搜索车队" @search="onSearch"/>
-        <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus" round
-                    @click="toAddTeam" block/>
-        <div style="margin-bottom: -5px"/>
-<!--        <van-dropdown-menu>-->
-<!--            <van-dropdown-item v-model="active" :options="activeOption" @change="onTabChange"/>-->
-<!--        </van-dropdown-menu>-->
-        <van-tabs v-model:active="active" @change="onTabChange">
-          <van-tab title="公开" name="0" />
-          <van-tab title="加密" name="2" />
-          <van-tab title="私有" name="1" />
-        </van-tabs>
-        <team-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam"/>
-        <van-empty v-if="teamList?.length < 1" description="数据为空"/>
-    </div>
+  <div id="teamPage">
+    <van-search v-model="searchText" placeholder="搜索车队" @search="onSearch"/>
+    <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus" round
+                @click="toAddTeam" block/>
+    <div style="margin-bottom: -5px"/>
+    <!--        <van-dropdown-menu>-->
+    <!--            <van-dropdown-item v-model="active" :options="activeOption" @change="onTabChange"/>-->
+    <!--        </van-dropdown-menu>-->
+    <van-tabs v-model:active="active" @change="onTabChange">
+      <van-tab title="公开" name="0"/>
+      <van-tab title="加密" name="2"/>
+      <van-tab title="私有" name="1"/>
+    </van-tabs>
+    <team-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam"/>
+    <van-empty v-if="teamList?.length < 1" description="数据为空"/>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -28,9 +28,9 @@ import {showFailToast} from "vant";
 const active = ref(0)
 const router = useRouter();
 const activeOption = [
-    {text: '公开', value: 0},
-    {text: '加密', value: 2},
-    {text: '私有', value: 1},
+  {text: '公开', value: 0},
+  {text: '加密', value: 2},
+  {text: '私有', value: 1},
 ];
 const searchText = ref("")
 
@@ -43,14 +43,14 @@ onMounted(() => {
  * @param name
  */
 const onTabChange = () => {
-    listTeam(active.value);
+  listTeam(active.value);
 }
 
 // 跳转到创建车队页
 const toAddTeam = () => {
-    router.push({
-        path: "/team/add"
-    })
+  router.push({
+    path: "/team/add"
+  })
 }
 
 const teamList = ref([]);
@@ -61,30 +61,31 @@ const teamList = ref([]);
  * @param status
  * @returns {Promise<void>}
  */
-const listTeam = async (status = 0) => {
-    await request.get("/team/list", {
-        params: {
-            pageNum: 1,
-            status,
-        },
-    }).then(res => {
-        if (res?.code === 0) {
-            teamList.value = res.data ? res.data : [];
-        } else {
-            showFailToast(res.message);
-        }
-    }).catch(error => {
-        showFailToast('加载车队失败，请刷新重试');
-    });
+const listTeam = async (status = 0, searchText = '') => {
+  await request.get("/team/list", {
+    params: {
+      pageNum: 1,
+      status,
+      searchText
+    },
+  }).then(res => {
+    if (res?.code === 0) {
+      teamList.value = res.data ? res.data : [];
+    } else {
+      showFailToast(res.message);
+    }
+  }).catch(error => {
+    showFailToast('加载车队失败，请刷新重试');
+  });
 }
 
 // 页面加载时只触发一次
 onMounted(() => {
-    listTeam();
+  listTeam();
 })
 
 const onSearch = (val) => {
-    listTeam(val);
+  listTeam(active.value, val);
 };
 
 </script>

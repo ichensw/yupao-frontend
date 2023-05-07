@@ -33,7 +33,7 @@
 
 <script setup>
 import {ref} from "vue";
-import {showToast} from "vant";
+import {showFailToast, showToast} from "vant";
 import {useRouter} from "vue-router";
 
 const searchText = ref('');
@@ -109,6 +109,10 @@ const close = (tag) => {
 }
 
 const doSearchResult = () => {
+    if (!activeIds.value) {
+      showFailToast("")
+      return
+    }
     router.push({
         path: '/user/list',
         query: {
