@@ -27,14 +27,14 @@ const loading = ref(false);
 /** 加载完成标识 */
 const finished = ref(false);
 /** 路由参数：标签 */
-const {tags} = route.query
+const {tags, username} = route.query
 /** 分页参数 */
 let pageInfo = { pageSize: 10, pageNum: 1};
 
 const loadData = async () => {
   continueLoading.value = true;
 
-  const userListData = await SearchUserByTags(tags, pageInfo.pageSize, pageInfo.pageNum++)
+  const userListData = await SearchUserByTags(tags, username, pageInfo.pageSize, pageInfo.pageNum++)
       .then((response) => {
         console.log('/user/search/tags succeed', response);
         if (response?.data?.records.length < 1) {
@@ -45,7 +45,7 @@ const loadData = async () => {
       .catch(function (error) {
         console.log('/user/search/tags error', error);
         showFailToast("请求失败")
-      });
+      })
   if (userListData) {
     userListData.forEach(user => {
       if (user.tags) {
@@ -56,8 +56,6 @@ const loadData = async () => {
   }
   continueLoading.value = false;
 }
-// onMounted(
-// )
 
 
 </script>
