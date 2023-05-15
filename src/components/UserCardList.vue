@@ -4,6 +4,7 @@
         :desc="`${user.profile}`"
         :title="`${user.username}`"
         :thumb="`${user.avatarUrl}`"
+        class="card-style"
     >
       <template #tags>
         <van-tag plain type="danger" v-for="tag in user.tags" style="margin-right: 8px; margin-top: 8px">
@@ -34,5 +35,10 @@ withDefaults(defineProps<UserCardListProps>(), {
 </script>
 
 <style scoped>
-
+.card-style {
+  background: white;
+  border-radius: 10px;
+  width: 96%;
+  margin: 0 auto;
+}
 </style>
