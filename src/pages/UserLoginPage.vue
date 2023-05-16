@@ -1,26 +1,32 @@
 <template>
   <div class="wrapper-div">
+    <div class="login-top">
+      <div class="login-logo"></div>
+      <div class="login-title">
+        动漫交友中心
+      </div>
+    </div>
     <div class="login-form-div">
       <van-form @submit="onSubmit">
-        <van-cell-group inset>
-          <van-field
-              v-model="userAccount"
-              name="userAccount"
-              label="账号"
-              placeholder="账号"
-              :rules="[{ required: true, message: '请填写账号' }]"
-          />
-          <van-field
-              v-model="userPassword"
-              type="password"
-              name="userPassword"
-              label="密码"
-              placeholder="请输入密码"
-              :rules="[{ required: true, message: '请填写密码' }]"
-          />
-        </van-cell-group>
-        <div style="margin: 16px;">
-          <van-button round block :disabled="isEnableBtn" type="primary" native-type="submit">
+        <van-field
+            v-model="userAccount"
+            placeholder="请输入账号"
+            autocomplete="off"
+            :rules="[{ required: true, message: '请输入账号', trigger: 'onSubmit' }]"
+        />
+        <van-field
+            v-model="userPassword"
+            type="password"
+            placeholder="请输入密码"
+            autocomplete="off"
+            :rules="[{ required: true, message: '请输入密码', trigger: 'onSubmit' }]"
+        />
+        <div @click="showHasQuestion" style="float: right; color: darkgray; font-size: 14px; margin-right: 2%;">
+          登陆遇到问题？
+        </div>
+        <div style="width:88%; margin: 0 auto; padding-top: 50px">
+          <van-button style="border-radius: 10px" color="linear-gradient(to right, #ff6034, #ee0a24)" block :disabled="isEnableBtn"
+                      type="primary" native-type="submit">
             登陆
           </van-button>
         </div>
@@ -32,34 +38,81 @@
 <script setup lang="ts">
 
 import {useRoute} from "vue-router";
-import {ref} from "vue";
+import {ref, watchEffect} from "vue";
 // @ts-ignore
 import {userLogin} from "../services/user.ts";
-import {showFailToast, showSuccessToast} from "vant";
+import {showConfirmDialog, showDialog, showFailToast, showSuccessToast} from "vant";
 
 const route = useRoute();
 
 const userAccount = ref('');
 const userPassword = ref('');
 const isEnableBtn = ref(true);
+
 const onSubmit = async () => {
-  const res = await userLogin({
+  await userLogin({
     userAccount: userAccount.value,
     userPassword: userPassword.value
+  }).then((res: any) => {
+    if (res.code === 0 && res.data) {
+      showSuccessToast("登陆成功")
+      // 跳转到之前的页面
+      window.location.href = route.query?.redirect as string ?? '/';
+    } else {
+      showFailToast(res.description ? res.description : "登录失败")
+    }
   })
-
-  if (res.code === 0 && res.data) {
-    showSuccessToast("登陆成功")
-    // 跳转到之前的页面
-    window.location.href = route.query?.redirect as string ?? '/';
-  } else {
-    showFailToast("登录失败")
-  }
 };
 
+/**
+ * 点击 登陆遇到问题？
+ */
+const showHasQuestion = () => {
+  showConfirmDialog({
+    message: '系统问题请联系开发者。',
+    theme: 'round-button',
+  }).then(() => {
+    // on confirm
+    // window.location.href =
+  }).catch(() => {
+    // on cancel
+  })
+}
+
+watchEffect(() => {
+  isEnableBtn.value = !(userPassword.value && userAccount.value);
+})
 </script>
 
 <style scoped>
+.login-top {
+  width: 100%;
+  height: 30%;
+  margin-top: 10%;
+}
+.login-logo {
+  margin: 0 auto;
+  width: 8rem;
+  height: 8rem;
+  background: url("../assets/1.jpg");
+  background-size: 100% 100%;
+  border-radius: 35px;
+}
+.login-title {
+  width: 9rem;
+  margin: 0 auto;
+  padding: 10px 0 0 10px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+
+.van-cell {
+  width: 90%;
+  margin: 15px auto;
+  border-radius: 10px;
+}
+
 .wrapper-div {
   position: fixed;
   top: 0;
@@ -68,16 +121,13 @@ const onSubmit = async () => {
   height: 100%;
   background-color: #eef0f3;
 }
+
 .login-form-div {
-  width: 100%;
+  width: 90%;
   position: absolute;
-  top: 45%;
+  top: 54%;
   left: 50%;
+  height: 50%;
   transform: translate(-50%, -50%);
 }
-.login-form {
-  position: absolute;
-  top: 50%;
-}
-
 </style>

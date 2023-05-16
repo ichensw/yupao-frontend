@@ -12,7 +12,7 @@
   <div id="content">
     <router-view/>
   </div>
-  <van-tabbar route>
+  <van-tabbar v-if="route.meta.showBottom" route>
     <van-tabbar-item to="/" icon="home-o" name="index">主页</van-tabbar-item>
     <van-tabbar-item to="/team" icon="search" name="team">车队</van-tabbar-item>
     <van-tabbar-item to="/user" icon="friends-o" name="user">个人</van-tabbar-item>
