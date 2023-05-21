@@ -1,9 +1,5 @@
 <template>
-  <van-nav-bar
-      :title="title"
-      left-arrow
-      @click-right="onClickRight"
-  >
+  <van-nav-bar>
     <template #left>
       <b style="font-size: 20px">首页</b>
     </template>
@@ -152,22 +148,22 @@ const loadData = async () => {
 }
 
 .scroll-div-image1 {
-  background-image: url("../assets/1.jpg");
+  background-image: url("../assets/images/1.jpg");
   background-size: 100% 100%;
 }
 
 .scroll-div-image2 {
-  background-image: url("../assets/2.jpg");
+  background-image: url("../assets/images/2.jpg");
   background-size: 100% 100%;
 }
 
 .scroll-div-image3 {
-  background-image: url("../assets/3.jpg");
+  background-image: url("../assets/images/3.jpg");
   background-size: 100% 100%;
 }
 
 .scroll-div-image4 {
-  background-image: url("../assets/4.jpg");
+  background-image: url("../assets/images/4.jpg");
   background-size: 100% 100%;
 }
 

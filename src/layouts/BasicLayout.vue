@@ -1,23 +1,23 @@
 <template>
-<!--  <van-nav-bar
-      :title="title"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-  >
-    <template #right v-if="title === '匹配摩友'">
-      <van-icon name="search" size="18"/>
-    </template>
-  </van-nav-bar>-->
-  <div id="content">
-    <router-view/>
-  </div>
-  <van-tabbar v-if="route.meta.showBottom" route>
-    <van-tabbar-item to="/" icon="home-o" name="index">主页</van-tabbar-item>
-    <van-tabbar-item to="/team" icon="friends-o" name="team">聊天室</van-tabbar-item>
-    <van-tabbar-item to="/message" icon="search" name="team">消息</van-tabbar-item>
-    <van-tabbar-item to="/user" icon="user-o" name="user">个人</van-tabbar-item>
-  </van-tabbar>
+    <van-nav-bar
+            v-if="route.meta.showHeader"
+            :title="title"
+            @click-left="onClickLeft"
+            @click-right="onClickRight"
+    >
+        <template #right v-if="title === '匹配摩友'">
+            <van-icon name="search" size="18"/>
+        </template>
+    </van-nav-bar>
+    <div id="content">
+        <router-view/>
+    </div>
+    <van-tabbar v-if="route.meta.showBottom" route>
+        <van-tabbar-item to="/" icon="home-o" name="index">主页</van-tabbar-item>
+        <van-tabbar-item to="/team" icon="friends-o" name="team">聊天室</van-tabbar-item>
+        <van-tabbar-item to="/message" icon="search" name="team">消息</van-tabbar-item>
+        <van-tabbar-item to="/user" icon="user-o" name="user">个人</van-tabbar-item>
+    </van-tabbar>
 </template>
 
 <script setup lang="ts">
@@ -33,25 +33,25 @@ const title = ref(DEFAULT_TITLE);
  * 根据路由切换标题
  */
 router.beforeEach((to, from) => {
-  const toPath = to.path;
-  const route = routes.find((route) => {
-    return toPath == route.path;
-  })
-  title.value = route?.title ?? DEFAULT_TITLE;
+    const toPath = to.path;
+    const route = routes.find((route) => {
+        return toPath == route.path;
+    })
+    title.value = route?.title ?? DEFAULT_TITLE;
 })
 
 const onClickLeft = () => {
-  router.back();
+    router.back();
 };
 
 const onClickRight = () => {
-  router.push('/search')
+    router.push('/search')
 };
 
 </script>
 
 <style scoped>
 #content {
-  padding-bottom: 50px;
+    padding-bottom: 50px;
 }
 </style>
