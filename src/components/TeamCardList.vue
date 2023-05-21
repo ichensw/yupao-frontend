@@ -13,10 +13,9 @@
             </template>
             <template #bottom>
                 <div>
-                    {{ `车队人数: ${team.joinNum}/${team.maxNum}` }}
+                    {{ `房间人数: ${team.joinNum}/${team.maxNum}` }}
                 </div>
                 <div v-if="team.expireTime">
-                    <!--          TODO 优化格式化插件的使用方式，重复使用很麻烦-->
                     {{ '过期时间: ' + moment(team.expireTime).format("YYYY-MM-DD HH:mm:ss") }}
                 </div>
                 <div>
@@ -28,22 +27,22 @@
                             v-if="team.userId !== currentUser?.userId && !team.hasJoin && team.maxNum > team.joinNum"
                             plain
                             @click="preJoinTeam(team)">
-                    加入车队
+                    加入房间
                 </van-button>
                 <van-button size="small" type="danger" disabled
                             v-if="team.userId !== currentUser?.userId && !team.hasJoin && team.maxNum <= team.joinNum"
                             plain>
-                    车队已满员
+                    房间已满员
                 </van-button>
                 <van-button v-if="team.userId === currentUser?.userId" size="small" plain
-                            @click="doUpdateTeam(team.teamId)">更新车队
+                            @click="doUpdateTeam(team.teamId)">更新房间
                 </van-button>
-                <!-- 仅加入车队可见 -->
+                <!-- 仅加入房间可见 -->
                 <van-button v-if="team.userId !== currentUser?.userId && team.hasJoin" size="small" plain
-                            @click="doQuitTeam(team.teamId)">退出车队
+                            @click="doQuitTeam(team.teamId)">退出房间
                 </van-button>
                 <van-button v-if="team.userId === currentUser?.userId" size="small" type="danger" plain
-                            @click="doDeleteTeam(team.teamId)">解散车队
+                            @click="doDeleteTeam(team.teamId)">解散房间
                 </van-button>
             </template>
         </van-card>
@@ -107,7 +106,7 @@ const doJoinCancel = () => {
 }
 
 /**
- * 加入车队
+ * 加入房间
  */
 const doJoinTeam = async () => {
     console.log()
@@ -132,7 +131,7 @@ const doJoinTeam = async () => {
 }
 
 /**
- * 跳转至更新车队页
+ * 跳转至更新房间页
  * @param id
  */
 const doUpdateTeam = (id: number) => {
@@ -145,7 +144,7 @@ const doUpdateTeam = (id: number) => {
 }
 
 /**
- * 退出车队
+ * 退出房间
  * @param id
  */
 const doQuitTeam = async (id: number) => {
@@ -161,7 +160,7 @@ const doQuitTeam = async (id: number) => {
 }
 
 /**
- * 解散车队
+ * 解散房间
  * @param id
  */
 const doDeleteTeam = async (id: number) => {

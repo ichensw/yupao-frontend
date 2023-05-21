@@ -14,8 +14,9 @@
   </div>
   <van-tabbar v-if="route.meta.showBottom" route>
     <van-tabbar-item to="/" icon="home-o" name="index">主页</van-tabbar-item>
-    <van-tabbar-item to="/team" icon="search" name="team">车队</van-tabbar-item>
-    <van-tabbar-item to="/user" icon="friends-o" name="user">个人</van-tabbar-item>
+    <van-tabbar-item to="/team" icon="friends-o" name="team">聊天室</van-tabbar-item>
+    <van-tabbar-item to="/message" icon="search" name="team">消息</van-tabbar-item>
+    <van-tabbar-item to="/user" icon="user-o" name="user">个人</van-tabbar-item>
   </van-tabbar>
 </template>
 

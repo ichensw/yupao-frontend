@@ -1,7 +1,7 @@
 import {UserType} from "./user";
 
 /**
- * 车队类别
+ * 房间类别
  */
 export type TeamType = {
     teamId: number;
@@ -20,7 +20,7 @@ export type TeamType = {
 };
 
 /**
- * 加入车队类别
+ * 加入房间类别
  */
 export type JoinTeamType = {
     teamId: number;

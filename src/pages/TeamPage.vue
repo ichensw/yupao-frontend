@@ -1,20 +1,24 @@
 <template>
-  <div id="teamPage">
-    <van-search v-model="searchText" placeholder="搜索车队" @search="onSearch"/>
-    <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus" round
-                @click="toAddTeam" block/>
-    <div style="margin-bottom: -5px"/>
-    <!--        <van-dropdown-menu>-->
-    <!--            <van-dropdown-item v-model="active" :options="activeOption" @change="onTabChange"/>-->
-    <!--        </van-dropdown-menu>-->
-    <van-tabs v-model:active="active" @change="onTabChange">
-      <van-tab title="公开" name="0"/>
-      <van-tab title="加密" name="2"/>
-      <van-tab title="私有" name="1"/>
-    </van-tabs>
-    <team-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam"/>
-    <van-empty v-if="teamList?.length < 1" description="数据为空"/>
-  </div>
+    <div id="teamPage">
+        <van-search v-model="searchText" placeholder="搜索房间" @search="onSearch"/>
+        <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus"
+                    round
+                    @click="toAddTeam" block/>
+        <div style="margin-bottom: -5px"/>
+        <!--        <van-dropdown-menu>-->
+        <!--            <van-dropdown-item v-model="active" :options="activeOption" @change="onTabChange"/>-->
+        <!--        </van-dropdown-menu>-->
+        <van-tabs v-model:active="active" @change="onTabChange">
+            <van-tab title="公开" name="0"/>
+            <van-tab title="加密" name="2"/>
+            <van-tab title="私有" name="1"/>
+        </van-tabs>
+        <div class="card-body">
+            <friend-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam" />
+        </div>
+<!--        <team-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam"/>-->
+        <van-empty v-if="teamList?.length < 1" description="数据为空"/>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -24,71 +28,69 @@ import TeamCardList from "../components/TeamCardList.vue";
 import {onMounted, ref} from "vue";
 import request from "../plugins/request";
 import {showFailToast} from "vant";
+import FriendCardList from "../components/FriendCardList.vue";
 
 const active = ref(0)
 const router = useRouter();
 const activeOption = [
-  {text: '公开', value: 0},
-  {text: '加密', value: 2},
-  {text: '私有', value: 1},
+    {text: '公开', value: 0},
+    {text: '加密', value: 2},
+    {text: '私有', value: 1},
 ];
 const searchText = ref("")
-
-onMounted(() => {
-
-})
 
 /**
  * 切换查询状态
  * @param name
  */
 const onTabChange = () => {
-  listTeam(active.value);
+    listTeam(active.value);
 }
 
-// 跳转到创建车队页
+// 跳转到创建房间页
 const toAddTeam = () => {
-  router.push({
-    path: "/team/add"
-  })
+    router.push({
+        path: "/team/add"
+    })
 }
 
 const teamList = ref([]);
 
 /**
- * 搜索车队
+ * 搜索房间
  * @param val
  * @param status
  * @returns {Promise<void>}
  */
 const listTeam = async (status = 0, searchText = '') => {
-  await request.get("/team/list", {
-    params: {
-      pageNum: 1,
-      status,
-      searchText
-    },
-  }).then(res => {
-    if (res?.code === 0) {
-      teamList.value = res.data ? res.data : [];
-    } else {
-      showFailToast(res.message);
-    }
-  }).catch(error => {
-    showFailToast('加载车队失败，请刷新重试');
-  });
+    await request.get("/team/list", {
+        params: {
+            pageNum: 1,
+            status,
+            searchText
+        },
+    }).then(res => {
+        if (res?.code === 0) {
+            teamList.value = res?.data ? res?.data : [];
+        }
+    })
 }
 
 // 页面加载时只触发一次
 onMounted(() => {
-  listTeam();
+    listTeam();
 })
 
 const onSearch = (val) => {
-  listTeam(active.value, val);
+    listTeam(active.value, val);
 };
 
 </script>
 
 <style scoped>
+.card-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* 水平居中 */
+}
 </style>

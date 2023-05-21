@@ -92,11 +92,11 @@ watchEffect(() => {
 }
 .login-logo {
   margin: 0 auto;
-  width: 8rem;
-  height: 8rem;
-  background: url("../assets/1.jpg");
+  width: 7rem;
+  height: 7rem;
+  background: url("../assets/logo.png");
   background-size: 100% 100%;
-  border-radius: 35px;
+  border-radius: 50%;
 }
 .login-title {
   width: 9rem;
@@ -124,8 +124,8 @@ watchEffect(() => {
 
 .login-form-div {
   width: 90%;
-  position: absolute;
-  top: 54%;
+  position: relative;
+  top: 20%;
   left: 50%;
   height: 50%;
   transform: translate(-50%, -50%);

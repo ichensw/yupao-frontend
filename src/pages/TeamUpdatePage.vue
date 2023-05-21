@@ -5,17 +5,17 @@
       <van-field
             v-model="addTeamData.name"
             name="name"
-            label="车队名"
-            placeholder="请输入车队名"
-            :rules="[{ required: true, message: '请输入车队名' }]"
+            label="房间名"
+            placeholder="请输入房间名"
+            :rules="[{ required: true, message: '请输入房间名' }]"
         />
         <van-field
             v-model="addTeamData.description"
             rows="4"
             autosize
-            label="车队描述"
+            label="房间描述"
             type="textarea"
-            placeholder="请输入车队描述"
+            placeholder="请输入房间描述"
         />
         <van-field
             is-link
@@ -41,7 +41,7 @@
             <van-time-picker v-model="currentTime"/>
           </van-picker-group>
         </van-popup>
-        <van-field name="radio" label="车队状态">
+        <van-field name="radio" label="房间状态">
           <template #input>
             <van-radio-group v-model="addTeamData.status" direction="horizontal">
               <van-radio name="0">公开</van-radio>
@@ -56,7 +56,7 @@
             type="password"
             name="password"
             label="密码"
-            placeholder="请输入车队密码"
+            placeholder="请输入房间密码"
             :rules="[{ required: true, message: '请填写密码' }]"
         />
       </van-cell-group>
@@ -94,10 +94,10 @@ const id = route.query.id;
 // 需要用户填写的表单数据
 const addTeamData = ref({})
 
-// 获取之前的车队信息
+// 获取之前的房间信息
 onMounted(async () => {
   if (Number(id) <= 0) {
-    showFailToast('加载车队失败');
+    showFailToast('加载房间失败');
     return;
   }
   const res = await request.get("/team/get", {
@@ -111,7 +111,7 @@ onMounted(async () => {
     addTeamData.value.status = status + '';
     expireTimeStr.value = moment(expireTime).format("YYYY/MM/DD HH:mm");
   } else {
-    showFailToast('加载车队失败，请刷新重试');
+    showFailToast('加载房间失败，请刷新重试');
   }}
 )
 
