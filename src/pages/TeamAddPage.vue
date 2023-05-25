@@ -2,11 +2,11 @@
     <div id="teamAddPage">
         <van-form @submit="onSubmit">
             <van-cell-group inset>
-                <van-uploader :after-read="afterRead">
+                <van-uploader class="my-van-image" :after-read="afterRead">
                     <van-image
                             round
-                            height="3rem"
-                            :src="team.teamImage"
+                            height="5rem"
+                            :src="addTeamData.teamImage"
                     >
                         <template v-slot:error>加载失败</template>
                     </van-image>
@@ -17,6 +17,7 @@
                         label="房间名"
                         placeholder="请输入房间名"
                         :rules="[{ required: true, message: '请输入房间名' }]"
+                        style="border-top-left-radius: 10px; border-top-right-radius: 10px"
                 />
                 <van-field
                         v-model="addTeamData.description"
@@ -97,9 +98,12 @@ const showPicker = ref(false);
 
 const initFormData = {
     "name": "",
+    "teamImage": "https://image-bed-ichensw.oss-cn-hangzhou.aliyuncs.com/006VVqOWgy1h43uaynbyxj30go0go0u7.jpg",
     "description": "",
     "expireTime": null as Date | null,
-    "maxNum": 3,
+    "maxNum": 10,
+    "creatorId": 0,
+    "userId": 0,
     "password": "",
     "status": "0",
 }
@@ -169,7 +173,26 @@ const onSubmit = async () => {
 </script>
 
 <style scoped>
-#teamPage {
+.my-van-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+}
+.van-cell {
+  background-color: #eef0f3;
+}
 
+.van-cell__value {
+  color: #ffffff;
+}
+.van-cell:after {
+  border-bottom: 1px solid #9b9fa5;
+}
+
+.last-cell {
+  margin-bottom: 40px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 </style>
