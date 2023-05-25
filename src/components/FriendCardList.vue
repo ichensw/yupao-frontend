@@ -16,8 +16,8 @@
 <script setup lang="ts">
 import {TeamType} from "../models/team";
 
-import teamIcon from "../assets/team-icon.png";
-import fullTeamIcon from "../assets/full-team-icon.png";
+import teamIcon from "../assets/images/team-icon.png";
+import fullTeamIcon from "../assets/images/full-team-icon.png";
 import {useRoute, useRouter} from "vue-router";
 
 interface FriendCardListProps {

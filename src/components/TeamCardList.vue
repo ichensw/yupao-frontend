@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import {TeamType} from "../models/team";
 import {teamStatusEnum} from "../constants/team";
-import ikun from '../assets/ikun.png';
+import ikun from '../assets/images/ikun.png';
 import request from "../plugins/request";
 import {showFailToast, showSuccessToast} from "vant";
 import {onMounted, ref} from "vue";
