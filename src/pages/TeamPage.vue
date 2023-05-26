@@ -14,7 +14,7 @@
             <van-tab title="私有" name="1"/>
         </van-tabs>
         <div class="card-body">
-            <friend-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam" />
+            <friend-card-list :status="parseInt(active)" :teamList="teamList" />
         </div>
 <!--        <team-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam"/>-->
         <van-empty v-if="teamList?.length < 1" description="数据为空"/>
@@ -30,7 +30,7 @@ import request from "../plugins/request";
 import {showFailToast} from "vant";
 import FriendCardList from "../components/FriendCardList.vue";
 
-const active = ref(0)
+const active = ref('0')
 const router = useRouter();
 const activeOption = [
     {text: '公开', value: 0},
@@ -62,7 +62,7 @@ const teamList = ref([]);
  * @param status
  * @returns {Promise<void>}
  */
-const listTeam = async (status = 0, searchText = '') => {
+const listTeam = async (status = '0', searchText = '') => {
     await request.get("/team/list", {
         params: {
             pageNum: 1,
@@ -81,7 +81,7 @@ onMounted(() => {
     listTeam();
 })
 
-const onSearch = (val) => {
+const onSearch = (val: string | undefined) => {
     listTeam(active.value, val);
 };
 

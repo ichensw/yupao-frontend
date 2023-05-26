@@ -94,7 +94,7 @@ watchEffect(() => {
   margin: 0 auto;
   width: 7rem;
   height: 7rem;
-  background: url("images/logo.png");
+  background: url("../assets/images/logo.png");
   background-size: 100% 100%;
   border-radius: 50%;
 }
