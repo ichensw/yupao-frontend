@@ -1,6 +1,7 @@
 import request from '../plugins/request';
 import {UserType} from "../models/user";
-import {getCurrentUserState, setCurrentUserState} from "../states/user";
+import {setCurrentUserState} from "../states/user";
+import {LocationQueryValue} from "vue-router";
 
 const userApi = {
     currentUser: '/user/current',
@@ -10,6 +11,7 @@ const userApi = {
     imageUpload: '/oss/upload',
     userRecommend: '/user/recommend',
     userMatch: '/user/match',
+    getUserById: '/user/getUserById',
 }
 
 export function userRecommend(pageSize: number, pageNum: number) {
@@ -19,6 +21,17 @@ export function userRecommend(pageSize: number, pageNum: number) {
         params: {
             pageSize,
             pageNum
+        }
+    })
+}
+
+
+export function getUserById(userId: string | LocationQueryValue[]) {
+    return request({
+        url: userApi.getUserById,
+        method: 'get',
+        params: {
+            userId
         }
     })
 }
@@ -57,7 +70,7 @@ export function userLogout() {
 }
 
 export async function getCurrentUser() {
-    // 两种方案：1.拿缓存，需要写更新缓存代码。 2.不拿缓存，直接获取后端
+    // // 两种方案：1.拿缓存，需要写更新缓存代码。 2.不拿缓存，直接获取后端
     // const currentUser = getCurrentUserState()
     // // 存在，直接返回
     // if (currentUser) {

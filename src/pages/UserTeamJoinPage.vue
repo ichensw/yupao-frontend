@@ -1,7 +1,7 @@
 <template>
     <div id="teamPage">
         <van-search v-model="searchText" placeholder="搜索房间" @search="listTeam"/>
-        <team-card-list :teamList="teamList"/>
+        <friend-card-list :teamList="teamList"/>
         <van-empty v-if="teamList?.length < 1" description="数据为空"/>
     </div>
 </template>
@@ -9,11 +9,10 @@
 <script setup lang="ts">
 
 import {useRouter} from "vue-router";
-import TeamCardList from "../components/TeamCardList.vue";
 import {onMounted, ref} from "vue";
-import request from "../plugins/request";
-import {showFailToast, Toast} from "vant";
+import {showFailToast} from "vant";
 import {listMyJoinTeam} from "../services/team";
+import FriendCardList from "../components/FriendCardList.vue";
 
 const router = useRouter();
 const searchText = ref('');

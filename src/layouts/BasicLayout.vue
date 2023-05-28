@@ -2,17 +2,18 @@
     <van-nav-bar
             v-if="route.meta.showHeader"
             :title="title"
+            :left-arrow="route.meta.showBack"
             @click-left="onClickLeft"
             @click-right="onClickRight"
     >
-        <template #right v-if="title === '匹配摩友'">
+        <template #right v-if="title === '匹配xxx'">
             <van-icon name="search" size="18"/>
         </template>
     </van-nav-bar>
     <div id="content">
         <router-view/>
     </div>
-    <van-tabbar v-if="route.meta.showBottom" route>
+    <van-tabbar v-if="route.meta.showBottom" route active-color="#ee0a24">
         <van-tabbar-item to="/" icon="home-o" name="index">主页</van-tabbar-item>
         <van-tabbar-item to="/team" icon="friends-o" name="team">聊天室</van-tabbar-item>
         <van-tabbar-item to="/message" icon="search" name="team">消息</van-tabbar-item>

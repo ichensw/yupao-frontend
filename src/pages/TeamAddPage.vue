@@ -57,11 +57,11 @@
                     </template>
                 </van-field>
                 <van-field name="radio" label="房间状态">
-                    <template #input>
-                        <van-radio-group v-model="addTeamData.status" direction="horizontal">
-                            <van-radio name="0">公开</van-radio>
-                            <van-radio name="1">私有</van-radio>
-                            <van-radio name="2">加密</van-radio>
+                    <template #input >
+                        <van-radio-group  v-model="addTeamData.status" direction="horizontal">
+                            <van-radio checked-color="#ee0a24" name="0">公开</van-radio>
+                            <van-radio checked-color="#ee0a24" name="1">私有</van-radio>
+                            <van-radio checked-color="#ee0a24" name="2">加密</van-radio>
                         </van-radio-group>
                     </template>
                 </van-field>
@@ -76,7 +76,7 @@
                 />
             </van-cell-group>
             <div style="margin: 16px;">
-                <van-button round block type="primary" native-type="submit">
+                <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" round block type="primary" native-type="submit">
                     提交
                 </van-button>
             </div>

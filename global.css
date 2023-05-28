@@ -1,8 +1,8 @@
 .add-button {
     position: fixed;
-    bottom: 60px;
+    bottom: 75px;
     width: 50px;
-    right: 12px;
+    right: 35px;
     height: 50px;
     border-radius: 50%;
 }

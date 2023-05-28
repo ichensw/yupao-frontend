@@ -1,23 +1,29 @@
 <template>
-  <template v-if="user">
-    <van-row justify="center">
-      <van-col span="6" style="padding: 30px 0; "><img :src="user.avatarUrl" alt=""
-                                                       style="width: 6rem;border-radius: 50%"></van-col>
-    </van-row>
+    <template v-if="user">
+        <div class="cover">
+            <van-image
+            round
+            fit="cover"
+            width="6rem"
+            height="6rem"
+            :src="user.avatarUrl"/>
+            <div v-if="!user.username">点击登录</div>
+            <div v-if="user.username">{{ user.username }}</div>
+        </div>
+        <van-grid :column-num="3">
+            <van-grid-item icon="manager-o" text="个人资料" is-link to="/user/info"/>
+            <van-grid-item icon="flag-o" text="创建的队伍" is-link to="/user/team/create"/>
+            <van-grid-item icon="friends-o" text="加入的队伍" is-link to="/user/team/join"/>
+            <van-grid-item icon="setting-o" text="设置" is-link to="/user/settings"/>
+            <van-grid-item icon="question-o" text="关于我们" is-link  @click="showFailToast('开发中')"/>
+        </van-grid>
 
-    <van-cell title="用户名" @click="toEdit('username', '用户名', user.username)" :value="user.username"/>
-<!--    <van-cell title="账户" :value="user.userAccount"/>-->
-<!--    <van-cell title="性别" is-link @click="toEdit('gender', '性别', user.gender)" :value="user.gender === 1 ? '男' : '女'"/>-->
-<!--    <van-cell title="电话" is-link @click="toEdit('phone', '电话', user.phone)" :value="user.phone"/>-->
-    <van-cell title="邮箱" v-show="user.email" :value="user.email"/>
-    <van-cell title="注册时间" :value="moment(user.createTime).format('YYYY-MM-DD HH:mm:ss')"/>
-    <van-cell title="修改信息" is-link to="/user/update" />
-    <van-cell title="我创建的房间" is-link to="/user/team/create" />
-    <van-cell title="我加入的房间" is-link to="/user/team/join" />
-    <van-button color="linear-gradient(to right, #ff6034, #ee0a24)"  @click="exitLogin" style="width: 90%; margin: 0 auto" block>
-      退出登录
-    </van-button>
-  </template>
+<!--        <van-cell icon="setting-o" title="个人资料" is-link to="/user/team/join"/>-->
+<!--        <van-cell icon="setting-o" title="创建的队伍" is-link to="/user/team/join"/>-->
+<!--        <van-cell icon="setting-o" title="加入的队伍" is-link to="/user/team/join"/>-->
+<!--        <van-cell icon="setting-o" title="设置" is-link to="/user/team/join"/>-->
+<!--        <van-cell icon="phone-o" title="关于我们" is-link to="/user/team/join"/>-->
+    </template>
 </template>
 
 <script setup lang="ts">
@@ -31,37 +37,48 @@ const user = ref();
 
 const router = useRouter();
 const toEdit = (editKey: string, editName: string, currentValue: string) => {
-  router.push({
-    path: '/user/edit',
-    query: {
-      editKey,
-      editName,
-      currentValue
-    }
-  })
+    router.push({
+        path: '/user/edit',
+        query: {
+            editKey,
+            editName,
+            currentValue
+        }
+    })
 }
 
 onMounted(async () => {
-  const currentUser = await getCurrentUser()
-  if (currentUser) {
-    user.value = currentUser;
-  } else {
-    showFailToast("获取用户信息失败")
-  }
+    const currentUser = await getCurrentUser()
+    if (currentUser) {
+        user.value = currentUser;
+    } else {
+        showFailToast("获取用户信息失败")
+    }
 })
 
 const exitLogin = async () => {
-  // TODO: 退出登录实现
-  const res = await userLogout();
-  if (res?.code === 0 ) {
-    showSuccessToast("退出登陆成功")
-    await router.push({
-      path: '/user/login'
-    })
-  }
+    // TODO: 退出登录实现
+    const res = await userLogout();
+    if (res?.code === 0) {
+        showSuccessToast("退出登陆成功")
+        await router.push({
+            path: '/user/login'
+        })
+    }
 }
 </script>
 
 <style scoped>
+.cover {
+    background-color: #f03d37;
+    padding: 40px;
+    text-align: center;
+    color: #fff;
+}
+.user-top-image {
+    width: 100%;
+    height: 200px;
+    border-bottom: 1px solid #eeeeee;
+}
 
 </style>

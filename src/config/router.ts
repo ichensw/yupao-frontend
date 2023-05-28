@@ -13,91 +13,121 @@ import TeamAddPage from "../pages/TeamAddPage.vue";
 import TeamUpdatePage from "../pages/TeamUpdatePage.vue";
 import MessagePage from "../pages/MessagePage.vue";
 import TeamDetailPage from "../pages/TeamDetailPage.vue";
+import UserInfoPage from "../pages/UserInfoPage.vue";
+import UserSettingPage from "../pages/UserSettingPage.vue";
+import UserAboutPage from "../pages/UserAboutPage.vue";
+import UserChatPage from "../pages/UserChatPage.vue";
 
 
 const routes = [
     {
         path: '/',
-        meta: {showBottom: true, showHeader: false},
+        meta: {showBottom: true, showHeader: false, showBack: false},
         component: Index
     },
     {
         path: '/team',
         title: '聊天室',
-        meta: {showBottom: true, showHeader: true},
+        meta: {showBottom: true, showHeader: true, showBack: false},
         component: Team
     },
     {
         path: '/team/add',
         title: '创建房间',
-        meta: {showBottom: true, showHeader: true},
+        meta: {showBottom: true, showHeader: true, showBack: false},
         component: TeamAddPage
     },
     {
         path: '/team/update',
         title: '更新房间',
-        meta: {showBottom: true, showHeader: true},
+        meta: {showBottom: true, showHeader: true, showBack: false},
         component: TeamUpdatePage
     },
     {
         path: '/team/detail',
         title: '房间信息',
-        meta: {showBottom: true, showHeader: true},
+        meta: {showBottom: true, showHeader: true, showBack: false},
         component: TeamDetailPage
     },
     {
         path: '/user',
         title: '个人信息',
-        meta: {showBottom: true, showHeader: false},
+        meta: {showBottom: true, showHeader: false, showBack: false},
         component: UserPage
     },
     {
         path: '/search',
         title: '找摩友',
-        meta: {showBottom: true, showHeader: false},
+        meta: {showBottom: true, showHeader: false, showBack: false},
         component: SearchPage
     },
     {
         path: '/user/list',
         title: '摩友列表',
-        meta: {showBottom: true, showHeader: false},
+        meta: {showBottom: true, showHeader: false, showBack: false},
         component: SearchResultPage
     },
     {
         path: '/user/edit',
         title: '编辑信息',
-        meta: {showBottom: true, showHeader: false},
+        meta: {showBottom: true, showHeader: false, showBack: false},
         component: UserEditPage
     },
     {
         path: '/user/login',
         title: '登录',
-        meta: {showBottom: false, showHeader: false},
+        meta: {showBottom: false, showHeader: false, showBack: false},
         component: UserLoginPage
     },
     {
         path: '/user/update',
         title: '更新信息',
-        meta: {showBottom: true, showHeader: false},
+        meta: {showBottom: true, showHeader: false, showBack: false},
         component: UserUpdatePage
     },
     {
         path: '/user/team/join',
         title: '加入的房间',
-        meta: {showBottom: true, showHeader: false},
+        meta: {showBottom: true, showHeader: true, showBack: true},
         component: UserTeamJoinPage
     },
     {
         path: '/user/team/create',
         title: '创建的房间',
-        meta: {showBottom: true, showHeader: false},
+        meta: {showBottom: true, showHeader: true, showBack: true},
         component: UserTeamCreatePage
     },
     {
         path: '/message',
         title: '我的消息',
-        meta: {showBottom: true, showHeader: true},
-        component: MessagePage}
+        meta: {showBottom: true, showHeader: true, showBack: false},
+        component: MessagePage
+    },
+    {
+        path: '/user/info',
+        title: '个人资料',
+        meta: {showBottom: true, showHeader: true, showBack: true},
+        component: UserInfoPage
+    },
+    {
+        path: '/user/settings',
+        title: '设置',
+        meta: {showBottom: true, showHeader: true, showBack: true},
+        component: UserSettingPage
+    },
+    {
+        path: '/user/about',
+        title: '关于我们',
+        meta: {showBottom: true, showHeader: true, showBack: true},
+        component: UserAboutPage
+    },
+    {
+        name: 'userChat',
+        path: '/user/chat/:toUserId/:receiveType',
+        title: '聊天页面',
+        meta: {showBottom: false, showHeader: false, showBack: false},
+        component: UserChatPage
+    },
 ]
 
 export default routes;

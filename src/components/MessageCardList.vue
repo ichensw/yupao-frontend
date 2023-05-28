@@ -1,48 +1,82 @@
 <template>
-    <div class="card-message">
+    <div class="card-message" @click="toMessagePage">
         <van-image
                 style="position: relative;display: block; padding: 10px; "
                 round
                 width="4rem"
                 height="4rem"
-                src="https://image-bed-ichensw.oss-cn-hangzhou.aliyuncs.com/006VVqOWgy1h4loz93bu9j30b40b4di4.jpg"
+                :src="message.avatarUrl"
                 alt=""/>
-        <div class="card-message-text" @click="toMessagePage">
-            <div class="card-message-name">张三</div>
-            <div class="card-message-content">今天有一条好消息告诉你</div>
+        <div class="card-message-text">
+            <div class="card-message-name">{{ message.userName }}</div>
+            <div class="card-message-content">{{ message.content }}</div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import {UserType} from "../models/user";
 import {useRouter} from "vue-router";
+import {MessageType} from "../models/message";
 
 
 const router = useRouter();
 
-interface UserCardListProps {
-    user: UserType,
-    loading: boolean;
+interface MessageCardListProps {
+    message: MessageType,
+    loading: boolean,
 }
 
 // const props = defineProps<{ user: object, loading: boolean}>()
-withDefaults(defineProps<UserCardListProps>(), {
-    user: undefined,
-    loading: true
+const props = withDefaults(defineProps<MessageCardListProps>(), {
+    message: undefined,
+    loading: true,
 });
 
 
 const toMessagePage = () => {
+    console.log("props.message-----", props.message)
     router.push({
-        name: "",
-        query: {
-
+        name: "userChat",
+        params: {
+            toUserId: props.message.receiveType === 1 ? props.message.receiveUserId : props.message.sendUserId,
+            receiveType: props.message.receiveType
         }
     })
 }
+
 </script>
 
 <style scoped>
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.card-message {
+    display: flex;
+    background-color: #fff;
+    border-radius: 15px;
+    width: 96%;
+    margin: 10px auto;
+    box-shadow: 1px 1px 7px #999;
+}
+
+.card-message-name {
+    line-height: 3rem;
+    font-weight: bold;
+    font-size: 19px;
+    font-family: system-ui;
+}
+
+.card-message-content {
+    font-size: 15px;
+    margin-top: -10px;
+    color: #9b9fa5;
+    width: 230px;
+    overflow: hidden; /*超出部分隐藏*/
+    white-space: nowrap; /*禁止换行*/
+    text-overflow: ellipsis; /*省略号*/
+}
 </style>

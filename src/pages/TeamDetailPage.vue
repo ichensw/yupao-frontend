@@ -51,6 +51,13 @@ const doJoinTeam = async () => {
     await joinTeam(team.value).then((res) => {
         if (res?.code === 0) {
             // 进入聊天室界面，建立ws连接
+             router.push({
+                name: 'userChat',
+                params: {
+                    toUserId: team.value.teamId,
+                    receiveType: 1
+                }
+            })
         }
     });
     // if (res?.code === 0) {

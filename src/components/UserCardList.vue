@@ -12,7 +12,7 @@
         </van-tag>
       </template>
       <template #footer>
-        <van-button size="mini">联系我</van-button>
+        <van-button size="mini" @click="toMessageChat(user.userId)">联系我</van-button>
       </template>
     </van-card>
   </van-skeleton>
@@ -21,6 +21,8 @@
 <script setup lang="ts">
 import {UserType} from "../models/user";
 import {onMounted} from "vue";
+import {useRouter} from "vue-router";
+import UserChatPage from "../pages/UserChatPage.vue";
 
 interface UserCardListProps {
   user: UserType,
@@ -31,6 +33,18 @@ withDefaults(defineProps<UserCardListProps>(), {
   user: undefined,
   loading: true
 });
+
+const router = useRouter()
+
+const toMessageChat = (userId: any) => {
+    router.push({
+        name: "userChat",
+        params: {
+            toUserId: userId,
+            receiveType: 0
+        }
+    })
+}
 
 </script>
 

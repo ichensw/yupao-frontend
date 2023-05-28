@@ -4,10 +4,13 @@
              :style="{ background: `no-repeat url(${team.teamImage})`, backgroundSize: '100% 100%' }"></div>
         <div class="card-content">
             <div class="team-info">
-                <img class="team-icon" :src="team.joinNum === team.maxNum ? fullTeamIcon : teamIcon"/>
-                <!--                <img class="team-icon" :src="team.status "/>-->
-                <!--                <span class="team-size">{{ teamSize }}</span>-->
-                <span class="team-size">{{ team.joinNum }} / {{ team.maxNum }}</span>
+                <div class="singe-line box" :title="team.name">
+                    {{ team.name }}
+                </div>
+                <div class="sine-line-number">
+                    <img class="team-icon" :src="team.joinNum === team.maxNum ? fullTeamIcon : teamIcon"/>
+                    <span class="team-size">{{ team.joinNum }} / {{ team.maxNum }}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -19,6 +22,7 @@ import {TeamType} from "../models/team";
 import teamIcon from "../assets/images/team-icon.png";
 import fullTeamIcon from "../assets/images/full-team-icon.png";
 import {useRoute, useRouter} from "vue-router";
+import {getCurrentUser} from "../services/user";
 
 interface FriendCardListProps {
     teamList?: TeamType[],
@@ -36,13 +40,25 @@ withDefaults(defineProps<FriendCardListProps>(), {
 const router = useRouter();
 
 
-const toTeamDetail = (team: any) => {
-    router.push({
-        path: '/team/detail',
-        query: {
-            team: encodeURIComponent(JSON.stringify(team))
-        }
-    })
+const toTeamDetail = async (team: any) => {
+    let currentUser = getCurrentUser();
+    if (team.hasJoin) {
+        await router.push({
+            name: 'userChat',
+            params: {
+                toUserId: team.teamId,
+                receiveType: 1
+            }
+        })
+    } else {
+        await router.push({
+            path: '/team/detail',
+            query: {
+                team: encodeURIComponent(JSON.stringify(team))
+            }
+        })
+    }
+
 }
 
 </script>
@@ -70,20 +86,22 @@ const toTeamDetail = (team: any) => {
 }
 
 .team-info {
-    display: flex;
     align-items: center;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 16px;
+    padding: 10px;
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     border-radius: 0 0 15px 15px;
 }
 
+.sine-line-number {
+    padding: 0 0 0 8px;
+}
 .team-icon {
-    height: 22px;
+    height: 18px;
     margin-top: -5px;
     margin-right: 8px;
 }
@@ -93,4 +111,14 @@ const toTeamDetail = (team: any) => {
     font-weight: bold;
 }
 
+.singe-line {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
+.box {
+    padding: 0 0 10px 8px;
+}
 </style>

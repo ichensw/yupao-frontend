@@ -4,6 +4,7 @@ import {JoinTeamType} from "../models/team";
 const teamApi = {
     joinTeam: "/team/join",
     listMyJoinTeam: "/team/list/my/join",
+    getTeamById: "/team/get",
 }
 
 
@@ -24,3 +25,14 @@ export function listMyJoinTeam(searchText: string) {
         }
     })
 }
+
+export function getTeamById(id: string) {
+    return request({
+        url: teamApi.getTeamById,
+        method: 'get',
+        params: {
+            id
+        }
+    })
+}
+

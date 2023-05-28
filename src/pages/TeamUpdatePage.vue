@@ -61,7 +61,7 @@
         />
       </van-cell-group>
       <div style="margin: 16px;">
-        <van-button round block type="primary" native-type="submit">
+        <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" round block type="primary" native-type="submit">
           提交
         </van-button>
       </div>
