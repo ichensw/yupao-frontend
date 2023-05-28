@@ -39,7 +39,8 @@ const toMessagePage = () => {
         name: "userChat",
         params: {
             toUserId: props.message.receiveType === 1 ? props.message.receiveUserId : props.message.sendUserId,
-            receiveType: props.message.receiveType
+            receiveType: props.message.receiveType,
+            status: 0
         }
     })
 }

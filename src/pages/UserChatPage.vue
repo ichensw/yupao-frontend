@@ -57,11 +57,12 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {nextTick, onBeforeUpdate, onMounted, onUpdated, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {getCurrentUser, getUserById} from "../services/user";
 import {getRoomHistoryMessage, getUserHistoryMessage} from "../services/message";
 import {getTeamById} from "../services/team";
+import request from "../plugins/request";
 
 const router = useRouter()
 const route = useRoute()
@@ -80,6 +81,7 @@ const currentUser = ref();
 
 const toUserId = route.params.toUserId
 const receiveType = route.params.receiveType
+const status = route.params.status
 
 /**
  * 页面加载时
@@ -90,7 +92,6 @@ onMounted(async () => {
     // 获取聊天框姓名
     currentUser.value = await getCurrentUser()
     const fromUserId = currentUser.value.userId;
-    console.log(receiveType)
     if (receiveType === '0') {
         // 私聊
         const user = await getUserById(toUserId);
@@ -98,8 +99,8 @@ onMounted(async () => {
             userName.value = user.data.username
         }
         // 初始化历史记录
-        await initHistoryMessage(fromUserId, toUserId)
-        setPageScrollTo()
+        await initUserHistoryMessage(fromUserId, toUserId)
+        setScrollPageSize();
         //创建监听内容部分滚动条滚动
         // scrollBox.value.addEventListener('scroll', srTop)
         const urlPrefix = 'ws://localhost:8080/api/user_chat/';
@@ -115,7 +116,6 @@ onMounted(async () => {
             }
         }
     } else if (receiveType === '1') {
-        console.log("---------------------------------")
         // 获取聊天室信息
         await getTeamById(toUserId + '')
             .then((res) => {
@@ -123,19 +123,8 @@ onMounted(async () => {
                     userName.value = res.data.name
                 }
             })
-        //
-        await getRoomHistoryMessage(fromUserId, toUserId)
-            .then((res) => {
-                if (res.code === 0) {
-                    res?.data.forEach(message => {
-                        message.position = 'left'
-                        if (message.sendUserId === currentUser.value.userId) {
-                            message.position = 'right'
-                        }
-                    })
-                    chatList.value = res?.data;
-                }
-            })
+        await initRoomHistoryMessage(fromUserId, toUserId)
+        setScrollPageSize();
         // 连接ws
         const urlPrefix = 'ws://localhost:8080/api/chat_room/';
         // 拼接用户id
@@ -151,9 +140,14 @@ onMounted(async () => {
         }
     }
 })
-
+onBeforeUpdate(() => {
+    console.log('更新前', scrollBox.value.scrollHeight);
+})
+onUpdated(() => {
+    console.log('更新后', scrollBox.value.scrollHeight);
+});
 // 加载历史聊天记录
-const initHistoryMessage = async (fromUserId, toUserId) => {
+const initUserHistoryMessage = async (fromUserId, toUserId) => {
     await getUserHistoryMessage(fromUserId, toUserId)
         .then((res) => {
             if (res.code === 0) {
@@ -162,11 +156,24 @@ const initHistoryMessage = async (fromUserId, toUserId) => {
                     if (message.sendUserId === currentUser.value.userId) {
                         message.position = 'right'
                     }
-                    console.log(message)
                 })
                 chatList.value = res?.data;
             }
         });
+}
+const initRoomHistoryMessage = async (fromUserId, toUserId) => {
+    await getRoomHistoryMessage(fromUserId, toUserId)
+        .then((res) => {
+            if (res.code === 0) {
+                res?.data.forEach(message => {
+                    message.position = 'left'
+                    if (message.sendUserId === currentUser.value.userId) {
+                        message.position = 'right'
+                    }
+                })
+                chatList.value = res?.data;
+            }
+        })
 }
 
 //返回
@@ -174,24 +181,36 @@ const onClickLeft = () => {
     router.back();
 }
 //更多
-const onClickRight = () => {
-    console.log("按钮");
+const onClickRight = async () => {
+    await request.get("/team/list", {
+        params: {
+            teamId: toUserId,
+            status
+        },
+    }).then(res => {
+        if (res?.code === 0) {
+            router.push({
+                path: '/team/detail',
+                query: {
+                    team: encodeURIComponent(JSON.stringify(res?.data[0])),
+                    isDetail: true
+                }
+            })
+        }
+    })
 }
 
-//滚动条默认滚动到最底部
-const setPageScrollTo = (s, c) => {
-    //获取中间内容盒子的可见区域高度
-    scrollTop.value = scrollBox.value.offsetHeight;
-    setTimeout((res) => {
-        //加个定时器，防止上面高度没获取到，再获取一遍。
-        if (scrollTop.value !== scrollBox.value.offsetHeight) {
-            scrollTop.value = scrollBox.value.offsetHeight;
-        }
-    }, 100);
-    //scrollTop：滚动条距离顶部的距离。
-    //把上面获取到的高度座位距离，把滚动条顶到最底部
-    scrollBox.value.scrollTop = scrollTop.value;
+const setScrollPageSize = () => {
+    // 设置滚动条位置
+    setTimeout(() => {
+        window.scrollTo({
+            left: 0,
+            top: document.scrollingElement.scrollHeight
+        });
+        console.log(document.scrollingElement.scrollHeight)
+    }, 200); // 注意这里需要延迟20ms正好可以获取到更新后的dom节点
 }
+
 //滚动条到达顶部
 const srTop = () => {
     //判断：当滚动条距离顶部为0时代表滚动到顶部了
@@ -207,8 +226,6 @@ const srTop = () => {
     }
 }
 const sendMessage = () => {
-    console.log("to：", toUserId, "from：", currentUser.value.userId)
-    console.log('发送成功');
     const msg = {
         to: toUserId,
         from: currentUser.value.userId,
@@ -231,7 +248,7 @@ const sendMessage = () => {
     position: relative;
     height: 100%;
     width: 100%;
-    flex-direction: column;
+    overflow: hidden;
 }
 
 .title {
@@ -265,6 +282,7 @@ const sendMessage = () => {
     然后不知道是边框还是组件的原因，导致多出了一些，这里再减去5px刚好。不然会出现滚动条到顶或者底部的时候再滚动的话就会报一个错，或者出现滚动条变长一下的bug
     */
     height: calc(100% - 115px);
+    overflow-x: hidden;
     overflow-y: auto;
     padding: 10px;
     z-index: -1;

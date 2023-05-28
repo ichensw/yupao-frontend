@@ -46,7 +46,7 @@ const routes = [
     {
         path: '/team/detail',
         title: '房间信息',
-        meta: {showBottom: true, showHeader: true, showBack: false},
+        meta: {showBottom: true, showHeader: true, showBack: true},
         component: TeamDetailPage
     },
     {
@@ -123,7 +123,7 @@ const routes = [
     },
     {
         name: 'userChat',
-        path: '/user/chat/:toUserId/:receiveType',
+        path: '/user/chat/:toUserId/:receiveType/:status',
         title: '聊天页面',
         meta: {showBottom: false, showHeader: false, showBack: false},
         component: UserChatPage

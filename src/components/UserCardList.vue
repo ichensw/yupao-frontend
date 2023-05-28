@@ -41,7 +41,8 @@ const toMessageChat = (userId: any) => {
         name: "userChat",
         params: {
             toUserId: userId,
-            receiveType: 0
+            receiveType: 0,
+            status: 0
         }
     })
 }

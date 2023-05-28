@@ -30,7 +30,7 @@ interface FriendCardListProps {
 }
 
 // const props = defineProps<{ user: object, loading: boolean}>()
-withDefaults(defineProps<FriendCardListProps>(), {
+const props = withDefaults(defineProps<FriendCardListProps>(), {
     // @ts-ignore
     teamList: [] as TeamType[],
     status: 0
@@ -47,7 +47,8 @@ const toTeamDetail = async (team: any) => {
             name: 'userChat',
             params: {
                 toUserId: team.teamId,
-                receiveType: 1
+                receiveType: 1,
+                status: props.status
             }
         })
     } else {
