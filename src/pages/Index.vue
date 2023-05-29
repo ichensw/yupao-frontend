@@ -25,16 +25,6 @@
             </template>
         </van-cell>
     </div>
-    <div class="my-div">
-        <van-cell center class="my-div-cell">
-            <template #title>
-                <b style="font-size: 13px">精准匹配</b>
-            </template>
-            <template #right-icon>
-                <van-switch v-model="isMatchMode" size="24" @change="changeMatchMode"/>
-            </template>
-        </van-cell>
-    </div>
     <van-list
         v-model:loading="continueLoading"
         :finished="finished"
