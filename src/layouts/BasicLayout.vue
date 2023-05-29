@@ -46,6 +46,7 @@ const onClickLeft = () => {
 };
 
 const onClickRight = () => {
+    console.log("跳转Search")
     router.push('/search')
 };
 

@@ -1,6 +1,5 @@
 <template>
-  <!-- 该页面为 群聊界面，还有私聊界面没有写   -->
-    <div class="wrap">
+    <div class="wrap" :style="{height: scrollerHeight}">
         <div class="title">
             <div>
                 <van-icon
@@ -34,7 +33,7 @@
                     </div>
                 </div>
                 <div>
-                    <van-image width="40px" height="40px" :src="item.avatarUrl"/>
+                    <van-image style="z-index: 1" width="40px" height="40px" :src="item.avatarUrl"/>
                 </div>
             </div>
         </div>
@@ -57,7 +56,7 @@
 </template>
 
 <script setup>
-import {nextTick, onBeforeUpdate, onMounted, onUpdated, ref} from "vue";
+import {computed, nextTick, onBeforeUpdate, onMounted, onUpdated, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {getCurrentUser, getUserById} from "../services/user";
 import {getRoomHistoryMessage, getUserHistoryMessage} from "../services/message";
@@ -83,6 +82,9 @@ const toUserId = route.params.toUserId
 const receiveType = route.params.receiveType
 const status = route.params.status
 
+const scrollerHeight = computed(() => {
+    return 0
+})
 /**
  * 页面加载时
  * 1. 链接WebSocket
@@ -245,7 +247,6 @@ const sendMessage = () => {
 
 <style scoped>
 .wrap {
-    position: relative;
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -261,6 +262,7 @@ const sendMessage = () => {
     align-items: center;
     background-color: #f5f5f5;
     border-bottom: 1px solid #eaeaea;
+    z-index: 9999;
 }
 
 .bottom {
@@ -273,7 +275,6 @@ const sendMessage = () => {
 }
 
 .content_box {
-    position: relative;
     margin-top: 40px;
     background-color: #f5f5f5;
     /*
@@ -282,6 +283,7 @@ const sendMessage = () => {
     然后不知道是边框还是组件的原因，导致多出了一些，这里再减去5px刚好。不然会出现滚动条到顶或者底部的时候再滚动的话就会报一个错，或者出现滚动条变长一下的bug
     */
     height: calc(100% - 115px);
+    //height: 1000px;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 10px;

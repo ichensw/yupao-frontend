@@ -4,6 +4,7 @@
         <van-button color="linear-gradient(to right, #ff6034, #ee0a24)" class="add-button" type="primary" icon="plus"
                     round
                     @click="toAddTeam" block/>
+        <van-loading size="24px" vertical v-show="isLoading">加载中...</van-loading>
         <div style="margin-bottom: -5px"/>
         <!--        <van-dropdown-menu>-->
         <!--            <van-dropdown-item v-model="active" :options="activeOption" @change="onTabChange"/>-->
@@ -17,7 +18,7 @@
             <friend-card-list :status="parseInt(active)" :teamList="teamList" />
         </div>
 <!--        <team-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam"/>-->
-        <van-empty v-if="teamList?.length < 1" description="数据为空"/>
+        <van-empty v-show="isDataEmpty" description="数据为空"/>
     </div>
 </template>
 
@@ -31,7 +32,10 @@ import {showFailToast} from "vant";
 import FriendCardList from "../components/FriendCardList.vue";
 
 const active = ref('0')
+const isDataEmpty = ref(false)
+const isLoading = ref(true)
 const router = useRouter();
+const teamList = ref([]);
 const activeOption = [
     {text: '公开', value: 0},
     {text: '加密', value: 2},
@@ -44,17 +48,29 @@ const searchText = ref("")
  * @param name
  */
 const onTabChange = () => {
+    isLoading.value = true;
     listTeam(active.value);
+    isLoading.value = false;
 }
 
+
+// 页面加载时只触发一次
+onMounted(() => {
+    listTeam();
+    isLoading.value = false;
+})
+
+const onSearch = (val: string | undefined) => {
+    isLoading.value = true;
+    listTeam(active.value, val);
+    isLoading.value = false;
+};
 // 跳转到创建房间页
 const toAddTeam = () => {
     router.push({
         path: "/team/add"
     })
 }
-
-const teamList = ref([]);
 
 /**
  * 搜索房间
@@ -72,18 +88,15 @@ const listTeam = async (status = '0', searchText = '') => {
     }).then(res => {
         if (res?.code === 0) {
             teamList.value = res?.data ? res?.data : [];
+            if (teamList.value.length < 1) {
+                isDataEmpty.value = true;
+            }
+        } else {
+            teamList.value = []
+            showFailToast(res?.message)
         }
     })
 }
-
-// 页面加载时只触发一次
-onMounted(() => {
-    listTeam();
-})
-
-const onSearch = (val: string | undefined) => {
-    listTeam(active.value, val);
-};
 
 </script>
 

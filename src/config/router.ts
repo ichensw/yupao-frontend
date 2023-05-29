@@ -57,14 +57,14 @@ const routes = [
     },
     {
         path: '/search',
-        title: '找摩友',
-        meta: {showBottom: true, showHeader: false, showBack: false},
+        title: '寻找小伙伴',
+        meta: {showBottom: false, showHeader: true, showBack: true},
         component: SearchPage
     },
     {
         path: '/user/list',
-        title: '摩友列表',
-        meta: {showBottom: true, showHeader: false, showBack: false},
+        title: '伙伴列表',
+        meta: {showBottom: false, showHeader: true, showBack: true},
         component: SearchResultPage
     },
     {
