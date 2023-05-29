@@ -130,16 +130,14 @@ const afterRead = async (file: any) => {
     await imageUpload(formData).then(res => {
         console.log(res)
         if (res?.code === 0) {
-            addTeamData.value.avatarUrl =  res.data.url
+            addTeamData.value.teamImage =  res.data.url
         } else {
             file.status = 'failed';
             file.message = '上传失败';
             showFailToast('上传失败，' + (res.description ? `，${res.description}` : ''));
         }
     }).catch(error => {
-        console.log("错误信息：", error)
         showFailToast('请求失败');
-
     })
 };
 

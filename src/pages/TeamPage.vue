@@ -25,7 +25,6 @@
 <script setup lang="ts">
 
 import {useRouter} from "vue-router";
-import TeamCardList from "../components/TeamCardList.vue";
 import {onMounted, ref} from "vue";
 import request from "../plugins/request";
 import {showFailToast} from "vant";

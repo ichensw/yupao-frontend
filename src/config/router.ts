@@ -40,7 +40,7 @@ const routes = [
     {
         path: '/team/update',
         title: '更新房间',
-        meta: {showBottom: true, showHeader: true, showBack: false},
+        meta: {showBottom: true, showHeader: true, showBack: true},
         component: TeamUpdatePage
     },
     {

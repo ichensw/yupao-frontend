@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
-import {getCurrentUser, imageUpload, userLogout} from "../services/user";
+import {getCurrentUser, imageUpload, updateUser, userLogout} from "../services/user";
 import {showFailToast, showSuccessToast} from "vant";
 import moment from "moment";
 
@@ -73,9 +73,16 @@ const afterRead = async (file: any) => {
     let formData = new FormData();
     formData.append("file", file.file);
     await imageUpload(formData).then(res => {
-        console.log(res)
         if (res?.code === 0) {
             user.value.avatarUrl =  res.data.url
+            updateUser(user.value)
+                .then(() => {
+                    showSuccessToast("头像修改成功!")
+                })
+                .catch((error) => {
+                    console.log(error)
+                    showFailToast("头像修改失败")
+                })
         } else {
             file.status = 'failed';
             file.message = '上传失败';

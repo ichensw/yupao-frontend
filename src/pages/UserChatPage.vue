@@ -12,15 +12,17 @@
             <div>{{ userName }}
             </div>
             <div>
-                <van-icon name="ellipsis"
-                          size="22"
-                          style="margin-right: 10px"
-                          @click="onClickRight"
+                <van-icon
+                        v-show="receiveType === '1'"
+                        name="ellipsis"
+                        size="22"
+                        style="margin-right: 10px"
+                        @click="onClickRight"
                 />
             </div>
         </div>
         <div class="content_box" id="box" ref="scrollBox">
-            <div class="timer">2022-08-02 11:08:07</div>
+            <!--            <div class="timer">2022-08-02 11:08:07</div>-->
             <div :class="item.position === 'left' ? 'userbox2' : 'userbox'"
                  v-for="(item, index) in chatList"
                  :key="index"
@@ -73,7 +75,6 @@ const chatList = ref([]);
 //用户名
 const userName = ref("");
 const message = ref("");
-const scrollTop = ref(0);
 const scrollBox = ref(null)
 // 当前用户信息
 const currentUser = ref();
@@ -83,7 +84,7 @@ const receiveType = route.params.receiveType
 const status = route.params.status
 
 const scrollerHeight = computed(() => {
-    return 0
+    return (window.innerHeight - 50) + 'px'; //自定义高度需求
 })
 /**
  * 页面加载时
@@ -191,13 +192,24 @@ const onClickRight = async () => {
         },
     }).then(res => {
         if (res?.code === 0) {
-            router.push({
-                path: '/team/detail',
-                query: {
-                    team: encodeURIComponent(JSON.stringify(res?.data[0])),
-                    isDetail: true
-                }
-            })
+            console.log(res.data, currentUser.value.userId)
+            if (res.data[0].createUser.userId === currentUser.value.userId) {
+                router.push({
+                    path: '/team/update',
+                    query: {
+                        id: res.data[0].teamId
+                    }
+                })
+            } else {
+                router.push({
+                    path: '/team/detail',
+                    query: {
+                        team: encodeURIComponent(JSON.stringify(res?.data[0])),
+                        isDetail: true
+                    }
+                })
+            }
+
         }
     })
 }
@@ -213,20 +225,6 @@ const setScrollPageSize = () => {
     }, 200); // 注意这里需要延迟20ms正好可以获取到更新后的dom节点
 }
 
-//滚动条到达顶部
-const srTop = () => {
-    //判断：当滚动条距离顶部为0时代表滚动到顶部了
-    if (scrollBox.value.scrollTop === 0) {
-        //逻辑简介：
-        //到顶部后请求后端的方法，获取第二页的聊天记录，然后插入到现在的聊天数据前面。
-        //如何插入前面：可以先把获取的数据保存在 A 变量内，然后 this.chatList=A.concat(this.chatList)把数组合并进来就可以了
-
-        //拿聊天记录逻辑:
-        //第一次调用一个请求拉历史聊天记录，发请求时参数带上页数 1 传过去，拿到的就是第一页的聊天记录，比如一次拿20条。你显示出来
-        //然后向上滚动到顶部时，触发新的请求，在请求中把分页数先 +1 然后再请求，这就拿到了第二页数据，然后通过concat合并数组插入进前面，依次类推，功能完成！
-        console.log('到顶了，滚动条位置 :', scrollBox.value.scrollTop);
-    }
-}
 const sendMessage = () => {
     const msg = {
         to: toUserId,
@@ -242,14 +240,13 @@ const sendMessage = () => {
     message.value = ''
 }
 
-
 </script>
+
 
 <style scoped>
 .wrap {
-    height: 100%;
     width: 100%;
-    overflow: hidden;
+    background-color: #f5f5f5;
 }
 
 .title {
@@ -282,11 +279,9 @@ const sendMessage = () => {
     这里padding：10px造成的上下够加了10，把盒子撑大了，所以一共是20要减掉
     然后不知道是边框还是组件的原因，导致多出了一些，这里再减去5px刚好。不然会出现滚动条到顶或者底部的时候再滚动的话就会报一个错，或者出现滚动条变长一下的bug
     */
-    height: calc(100% - 115px);
-    //height: 1000px;
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 10px;
+    padding: 10px 10px 50px 10px;
     z-index: -1;
 }
 

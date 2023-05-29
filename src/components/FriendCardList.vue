@@ -41,7 +41,6 @@ const router = useRouter();
 
 
 const toTeamDetail = async (team: any) => {
-    let currentUser = getCurrentUser();
     if (team.hasJoin) {
         await router.push({
             name: 'userChat',
