@@ -52,41 +52,41 @@ const originTextList = [
       {text: '女', id: '女'},
     ],
   },
-  {
-    text: '车型',
-    children: [
-      {text: '春风250SR', id: '春风250SR'},
-      {text: '豪爵铃木GSX250R', id: '豪爵铃木GSX250R'},
-      {text: '春风450SR', id: '春风450SR'},
-      {text: '凯越321RR', id: '凯越321RR'},
-      {text: '雅马哈YZF-R3', id: '雅马哈YZF-R3'},
-      {text: '摩枭500RR', id: '摩枭500RR'},
-      {text: '力帆KPR150', id: '力帆KPR150'},
-      {text: '川崎Ninja400', id: '川崎Ninja400'},
-      {text: '奔达金吉拉', id: '奔达金吉拉'},
-      {text: '川崎NinjaH2', id: '川崎NinjaH2'},
-      {text: '宝马G310RR', id: '宝马G310RR'},
-      {text: '五羊本田NX125', id: '五羊本田NX125'},
-      {text: '豪爵TR300', id: '豪爵TR300'},
-      {text: 'QJMOTOR赛600', id: 'QJMOTOR赛600'},
-      {text: '春风250NK', id: '春风250NK'},
-      {text: '川崎Z400', id: '川崎Z400'},
-      {text: '豪爵铃木骊驰GW250', id: '豪爵铃木骊驰GW250'},
-      {text: '春风150NK', id: '春风150NK'},
-      {text: '春风800NK', id: '春风800NK'},
-      {text: '五羊本田帅影150', id: '五羊本田帅影150'},
-      {text: '雅马哈MT-03', id: '雅马哈MT-03'}
-    ],
-  },
   // {
-  //     text: '语言',
-  //     children: [
-  //         {text: 'c++', id: 'c++'},
-  //         {text: 'python', id: 'python'},
-  //         {text: 'java', id: 'java'},
-  //         {text: 'go', id: 'go'}
-  //     ],
-  // }
+  //   text: '车型',
+  //   children: [
+  //     {text: '春风250SR', id: '春风250SR'},
+  //     {text: '豪爵铃木GSX250R', id: '豪爵铃木GSX250R'},
+  //     {text: '春风450SR', id: '春风450SR'},
+  //     {text: '凯越321RR', id: '凯越321RR'},
+  //     {text: '雅马哈YZF-R3', id: '雅马哈YZF-R3'},
+  //     {text: '摩枭500RR', id: '摩枭500RR'},
+  //     {text: '力帆KPR150', id: '力帆KPR150'},
+  //     {text: '川崎Ninja400', id: '川崎Ninja400'},
+  //     {text: '奔达金吉拉', id: '奔达金吉拉'},
+  //     {text: '川崎NinjaH2', id: '川崎NinjaH2'},
+  //     {text: '宝马G310RR', id: '宝马G310RR'},
+  //     {text: '五羊本田NX125', id: '五羊本田NX125'},
+  //     {text: '豪爵TR300', id: '豪爵TR300'},
+  //     {text: 'QJMOTOR赛600', id: 'QJMOTOR赛600'},
+  //     {text: '春风250NK', id: '春风250NK'},
+  //     {text: '川崎Z400', id: '川崎Z400'},
+  //     {text: '豪爵铃木骊驰GW250', id: '豪爵铃木骊驰GW250'},
+  //     {text: '春风150NK', id: '春风150NK'},
+  //     {text: '春风800NK', id: '春风800NK'},
+  //     {text: '五羊本田帅影150', id: '五羊本田帅影150'},
+  //     {text: '雅马哈MT-03', id: '雅马哈MT-03'}
+  //   ],
+  // },
+  {
+      text: '语言',
+      children: [
+          {text: 'c++', id: 'c++'},
+          {text: 'python', id: 'python'},
+          {text: 'java', id: 'java'},
+          {text: 'go', id: 'go'}
+      ],
+  }
 ]
 const tagList = ref(originTextList);
 const onSearch = (val) => {

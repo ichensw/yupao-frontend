@@ -3,7 +3,7 @@
     <div class="login-top">
       <div class="login-logo"></div>
       <div class="login-title">
-        动漫交友中心
+        伙伴交友中心
       </div>
     </div>
     <div class="login-form-div">
