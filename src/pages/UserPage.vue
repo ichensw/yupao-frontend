@@ -2,11 +2,11 @@
     <template v-if="user">
         <div class="cover">
             <van-image
-                    round
-                    fit="cover"
-                    width="6rem"
-                    height="6rem"
-                    :src="user.avatarUrl"/>
+                round
+                fit="cover"
+                width="6rem"
+                height="6rem"
+                :src="user.avatarUrl"/>
             <div v-if="!user.username">点击登录</div>
             <div v-if="user.username">{{ user.username }}</div>
         </div>

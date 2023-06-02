@@ -13,7 +13,13 @@
         <van-cell title="昵称" size="large" is-link to="/user/edit" :value="user.username"
                   @click="toEdit('username', '昵称', user.username)"/>
         <van-cell title="账号" size="large" :value="user.userAccount"/>
-
+        <van-cell title="标签" size="large">
+            <template #right-icon>
+                <van-tag plain type="danger" v-for="tag in user.tags" style="margin-right: 8px; margin-top: 8px">
+                    {{ tag }}
+                </van-tag>
+            </template>
+        </van-cell>
         <van-cell title="性别" size="large" is-link :value="user.gender === 1 ? '男' : '女'" @click="toEdit('gender', '性别', user.gender)"/>
         <van-cell title="电话" size="large" is-link to="/user/edit" :value="user.phone"
                   @click="toEdit('phone', '电话', user.phone)"/>
@@ -47,23 +53,12 @@ const toEdit = (editKey: string, editName: string, currentValue: string) => {
 onMounted(async () => {
     const currentUser = await getCurrentUser()
     if (currentUser) {
+        currentUser.tags = JSON.parse(currentUser.tags)
         user.value = currentUser;
     } else {
         showFailToast("获取用户信息失败")
     }
 })
-
-const exitLogin = async () => {
-    // TODO: 退出登录实现
-    const res = await userLogout();
-    if (res?.code === 0) {
-        showSuccessToast("退出登陆成功")
-        await router.push({
-            path: '/user/login'
-        })
-    }
-}
-
 
 const afterRead = async (file: any) => {
     file.status = 'uploading';
