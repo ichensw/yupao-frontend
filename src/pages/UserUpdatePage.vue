@@ -50,8 +50,7 @@
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
 import {getCurrentUser, imageUpload, updateUser} from "../services/user";
-import {showFailToast, showSuccessToast} from "vant";
-import moment from "moment";
+import {showFailToast} from "vant";
 
 const user = ref();
 const showSelectSex = ref(false)

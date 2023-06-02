@@ -57,8 +57,8 @@
     </div>
 </template>
 
-<script setup>
-import {computed, nextTick, onBeforeUpdate, onMounted, onUpdated, ref} from "vue";
+<script setup lang="ts">
+import {computed, onBeforeUpdate, onMounted, onUpdated, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {getCurrentUser, getUserById} from "../services/user";
 import {getRoomHistoryMessage, getUserHistoryMessage} from "../services/message";

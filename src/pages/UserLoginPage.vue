@@ -41,7 +41,7 @@ import {useRoute} from "vue-router";
 import {ref, watchEffect} from "vue";
 // @ts-ignore
 import {userLogin} from "../services/user.ts";
-import {showConfirmDialog, showDialog, showFailToast, showSuccessToast} from "vant";
+import {showConfirmDialog, showFailToast, showSuccessToast} from "vant";
 
 const route = useRoute();
 

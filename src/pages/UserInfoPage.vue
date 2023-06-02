@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
-import {getCurrentUser, imageUpload, updateUser, userLogout} from "../services/user";
+import {getCurrentUser, imageUpload, updateUser} from "../services/user";
 import {showFailToast, showSuccessToast} from "vant";
 import moment from "moment";
 
