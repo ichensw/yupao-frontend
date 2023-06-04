@@ -55,9 +55,9 @@ const onSubmit = async () => {
     userPassword: userPassword.value
   }).then((res: any) => {
     if (res.code === 0 && res.data) {
-      showSuccessToast("登陆成功")
-      // 跳转到之前的页面
-      window.location.href = route.query?.redirect as string ?? '/';
+      // showSuccessToast("登陆成功")
+      // // 跳转到之前的页面
+      // window.location.href = route.query?.redirect as string ?? '/';
     } else {
       showFailToast(res.description ? res.description : "登录失败")
     }
