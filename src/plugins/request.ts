@@ -31,8 +31,8 @@ request.interceptors.response.use(function (response) {
     // 未登录则跳转到登录页
     if (response?.data?.code === 40100) {
         showFailToast("未登录")
-        // const redirectUrl = window.location.href;
-        // window.location.href = `/user/login?redirect=${redirectUrl}`;
+        const redirectUrl = window.location.href;
+        window.location.href = `/user/login?redirect=${redirectUrl}`;
     }
     // Do something with response data
     return response.data;
