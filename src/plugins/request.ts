@@ -5,7 +5,7 @@ import {showFailToast} from "vant";
 // 创建实例时配置默认值
 const request = axios.create({
     // baseURL: 'http://localhost:8080/api',
-    baseURL: 'https://friends.ichensw.cn',
+    baseURL: 'https://friend-backend.ichensw.cn',
     paramsSerializer: {
         serialize:function(params) {
             return qs.stringify(params, { arrayFormat: 'repeat' })
@@ -31,8 +31,8 @@ request.interceptors.response.use(function (response) {
     // 未登录则跳转到登录页
     if (response?.data?.code === 40100) {
         showFailToast("未登录")
-        const redirectUrl = window.location.href;
-        window.location.href = `/user/login?redirect=${redirectUrl}`;
+        // const redirectUrl = window.location.href;
+        // window.location.href = `/user/login?redirect=${redirectUrl}`;
     }
     // Do something with response data
     return response.data;
