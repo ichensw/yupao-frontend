@@ -1,6 +1,7 @@
 import axios from 'axios';
 import qs from "qs";
 import {showFailToast} from "vant";
+import router from "../config/router";
 
 // 创建实例时配置默认值
 const request = axios.create({
