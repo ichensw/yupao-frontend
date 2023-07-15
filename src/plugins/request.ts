@@ -5,7 +5,6 @@ import {showFailToast} from "vant";
 // 创建实例时配置默认值
 const request = axios.create({
     baseURL: 'http://localhost:8801/api/',
-    // baseURL: 'http://42.192.149.3:8801/api/',
     paramsSerializer: {
         serialize:function(params) {
             return qs.stringify(params, { arrayFormat: 'repeat' })

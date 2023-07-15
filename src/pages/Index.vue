@@ -69,6 +69,7 @@ const onClickRight = () => {
 const changeMatchMode = (modeFlag: boolean) => {
     // 精确匹配
     if (modeFlag) {
+        finished.value = true;
         exactMatching()
     } else {
         userList.value = []
