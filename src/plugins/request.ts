@@ -1,12 +1,11 @@
 import axios from 'axios';
 import qs from "qs";
 import {showFailToast} from "vant";
-import router from "../config/router";
 
 // 创建实例时配置默认值
 const request = axios.create({
-    // baseURL: 'http://localhost:8080/api',
-    baseURL: 'https://friend-backend.ichensw.cn',
+    baseURL: 'http://localhost:8801/api/',
+    // baseURL: 'http://42.192.149.3:8801/api/',
     paramsSerializer: {
         serialize:function(params) {
             return qs.stringify(params, { arrayFormat: 'repeat' })

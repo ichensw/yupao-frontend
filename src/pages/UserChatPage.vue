@@ -3,21 +3,21 @@
         <div class="title">
             <div>
                 <van-icon
-                        name="arrow-left"
-                        size="20"
-                        style="margin-left: 10px"
-                        @click="onClickLeft"
+                    name="arrow-left"
+                    size="20"
+                    style="margin-left: 10px"
+                    @click="onClickLeft"
                 />
             </div>
             <div>{{ userName }}
             </div>
             <div>
                 <van-icon
-                        v-show="receiveType === '1'"
-                        name="ellipsis"
-                        size="22"
-                        style="margin-right: 10px"
-                        @click="onClickRight"
+                    v-show="receiveType === '1'"
+                    name="ellipsis"
+                    size="22"
+                    style="margin-right: 10px"
+                    @click="onClickRight"
                 />
             </div>
         </div>
@@ -42,12 +42,12 @@
         <div class="bottom">
             <!--            TODO 消息小尖角未实现-->
             <van-field
-                    v-model="message"
-                    center
-                    type="textarea"
-                    :autosize="{ maxHeight: 100, minHeight: 25 }"
-                    placeholder="请输入内容"
-                    rows="1"
+                v-model="message"
+                center
+                type="textarea"
+                :autosize="{ maxHeight: 100, minHeight: 25 }"
+                placeholder="请输入内容"
+                rows="1"
             >
                 <template #button>
                     <van-button size="small" type="primary" @click="sendMessage">发送</van-button>

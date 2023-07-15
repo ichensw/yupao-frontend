@@ -3,9 +3,9 @@
         <van-cell title="头像" is-link size="large" style="align-items: center">
             <van-uploader :after-read="afterRead">
                 <van-image
-                        round
-                        height="40px"
-                        :src="user.avatarUrl"
+                    round
+                    height="40px"
+                    :src="user.avatarUrl"
                 />
             </van-uploader>
         </van-cell>
@@ -20,7 +20,8 @@
                 </van-tag>
             </template>
         </van-cell>
-        <van-cell title="性别" size="large" is-link :value="user.gender === 1 ? '男' : '女'" @click="toEdit('gender', '性别', user.gender)"/>
+        <van-cell title="性别" size="large" is-link :value="user.gender === 1 ? '男' : '女'"
+                  @click="toEdit('gender', '性别', user.gender)"/>
         <van-cell title="电话" size="large" is-link to="/user/edit" :value="user.phone"
                   @click="toEdit('phone', '电话', user.phone)"/>
         <van-cell title="邮箱" size="large" is-link to="/user/edit" :value="user.email"
@@ -69,7 +70,7 @@ const afterRead = async (file: any) => {
     formData.append("file", file.file);
     await imageUpload(formData).then(res => {
         if (res?.code === 0) {
-            user.value.avatarUrl =  res.data.url
+            user.value.avatarUrl = res.data.url
             updateUser(user.value)
                 .then(() => {
                     showSuccessToast("头像修改成功!")

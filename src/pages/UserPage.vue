@@ -9,6 +9,33 @@
                 :src="user.avatarUrl"/>
             <div v-if="!user.username">点击登录</div>
             <div v-if="user.username">{{ user.username }}</div>
+            <div class="tagsStyle">
+                <van-tag v-for="tag in tagList" style="margin: 4px" :show="true" closeable size="medium" plain
+                         color="#f03d37"
+                         @close="delTag(tag)">
+                    {{ tag }}
+                </van-tag>
+                <van-tag style="margin: 4px" :show="true" size="medium" plain color="#f03d37" @click="showAddTag">
+                    +
+                </van-tag>
+                <!-- 底部弹出 -->
+                <van-popup
+                    v-model:show="isShowAddTag"
+                    round
+                >
+                    <van-cell-group inset>
+                        <van-field
+                            v-model="tag"
+                            center
+                            placeholder="请输入标签名"
+                        >
+                            <template #button>
+                                <van-button size="small" type="danger" @click="submitAddTag">提交</van-button>
+                            </template>
+                        </van-field>
+                    </van-cell-group>
+                </van-popup>
+            </div>
         </div>
         <van-grid :column-num="3">
             <van-grid-item icon="manager-o" text="个人资料" is-link to="/user/info"/>
@@ -29,12 +56,16 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
-import {getCurrentUser, userLogout} from "../services/user";
-import {showFailToast, showSuccessToast} from "vant";
+import {getCurrentUser} from "../services/user";
+import {showConfirmDialog, showFailToast, showSuccessToast} from "vant";
+import {addTag, removeTag} from "../services/tags";
 
 const user = ref();
 
 const router = useRouter();
+const tagList = ref([]);
+const tag = ref('');
+const isShowAddTag = ref(false);
 const toEdit = (editKey: string, editName: string, currentValue: string) => {
     router.push({
         path: '/user/edit',
@@ -46,31 +77,75 @@ const toEdit = (editKey: string, editName: string, currentValue: string) => {
     })
 }
 
-onMounted(async () => {
+onMounted(() => {
+    loadUserInfo()
+})
+
+const loadUserInfo = async () => {
     const currentUser = await getCurrentUser()
     if (currentUser) {
         user.value = currentUser;
+        tagList.value = JSON.parse(currentUser.tags);
     } else {
         showFailToast("获取用户信息失败")
     }
-})
-
-const exitLogin = async () => {
-    // TODO: 退出登录实现
-    const res = await userLogout();
-    if (res?.code === 0) {
-        showSuccessToast("退出登陆成功")
-        await router.push({
-            path: '/user/login'
-        })
-    }
 }
+
+/**
+ * 显示添加标签输入框
+ */
+const showAddTag = async () => {
+    isShowAddTag.value = true
+}
+
+/**
+ * 添加标签
+ *
+ * @param tag
+ */
+const submitAddTag = async () => {
+    const flag = await addTag({tag: tag.value, userId: user.value.userId})
+    if (flag?.code === 0 && flag.data) {
+        showSuccessToast("添加成功")
+        isShowAddTag.value = false
+        tag.value = ''
+        await loadUserInfo()
+    } else {
+        showFailToast("添加失败")
+    }
+};
+/**
+ * 删除标签
+ *
+ * @param tag
+ */
+const delTag = (tag: string) => {
+    if (tagList.value.length > 1) {
+        showConfirmDialog({
+            message: `确定删除 ${tag} 标签嘛？`,
+            theme: 'round-button',
+        }).then(async () => {
+            // on confirm
+            const flag = await removeTag({tag, oldTags: tagList.value, userId: user.value.userId})
+            if (flag?.code === 0 && flag.data) {
+                showSuccessToast("删除成功")
+                await loadUserInfo()
+            } else {
+                showFailToast("删除失败")
+            }
+        }).catch(() => {
+            // on cancel
+        })
+    } else {
+        showFailToast("至少保留一个标签")
+    }
+};
 </script>
 
 <style scoped>
 .cover {
     background-color: #f03d37;
-    padding: 40px;
+    padding: 40px 0;
     text-align: center;
     color: #fff;
 }
@@ -79,6 +154,11 @@ const exitLogin = async () => {
     width: 100%;
     height: 200px;
     border-bottom: 1px solid #eeeeee;
+}
+
+.tagsStyle {
+    width: 100%;
+    margin: 10px 0 -20px 0;
 }
 
 </style>

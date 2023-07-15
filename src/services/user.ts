@@ -1,5 +1,5 @@
 import request from '../plugins/request';
-import {UserType} from "../models/user";
+import {UserRegisterType, UserType} from "../models/user";
 import {setCurrentUserState} from "../states/user";
 import {LocationQueryValue} from "vue-router";
 
@@ -7,6 +7,7 @@ const userApi = {
     currentUser: '/user/current',
     updateUser: '/user/update',
     userLogin: '/user/login',
+    userRegister: '/user/register',
     userLogout: '/user/logout',
     imageUpload: '/oss/upload',
     userRecommend: '/user/recommend',
@@ -46,6 +47,13 @@ export function userMatch(num: number) {
     })
 }
 
+export function userRegister(parameter: UserRegisterType) {
+    return request({
+        url: userApi.userRegister,
+        method: 'post',
+        data: parameter
+    })
+}
 export function userLogin(parameter: UserType) {
     return request({
         url: userApi.userLogin,
@@ -81,7 +89,7 @@ export async function getCurrentUser() {
     const res = await request.get(userApi.currentUser);
     // @ts-ignore
     if (res.code === 0) {
-        setCurrentUserState(res.data);
+        // setCurrentUserState(res.data);
         return res.data
     }
 }

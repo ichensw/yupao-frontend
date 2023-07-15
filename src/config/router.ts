@@ -17,6 +17,7 @@ import UserInfoPage from "../pages/UserInfoPage.vue";
 import UserSettingPage from "../pages/UserSettingPage.vue";
 import UserAboutPage from "../pages/UserAboutPage.vue";
 import UserChatPage from "../pages/UserChatPage.vue";
+import UserRegisterPage from "../pages/UserRegisterPage.vue";
 
 
 const routes = [
@@ -78,6 +79,12 @@ const routes = [
         title: '登录',
         meta: {showBottom: false, showHeader: false, showBack: false},
         component: UserLoginPage
+    },
+    {
+        path: '/user/register',
+        title: '注册',
+        meta: {showBottom: false, showHeader: false, showBack: false},
+        component: UserRegisterPage
     },
     {
         path: '/user/update',

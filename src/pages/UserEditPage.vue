@@ -2,11 +2,11 @@
     <van-form @submit="onSubmit">
         <van-cell-group inset>
             <van-field
-                    v-model="editUser.currentValue"
-                    :name="editUser.editKey.toString()"
-                    :label="editUser.editName.toString()"
-                    :placeholder="`请输入${editUser.editName}`"
-                    :rules="[{ required: true, message: `请填写${editUser.editName}` }]"
+                v-model="editUser.currentValue"
+                :name="editUser.editKey.toString()"
+                :label="editUser.editName.toString()"
+                :placeholder="`请输入${editUser.editName}`"
+                :rules="[{ required: true, message: `请填写${editUser.editName}` }]"
             />
         </van-cell-group>
         <div style="margin: 16px;">

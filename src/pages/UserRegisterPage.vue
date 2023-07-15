@@ -21,33 +21,26 @@
                     autocomplete="off"
                     :rules="[{ required: true, message: '请输入密码', trigger: 'onSubmit' }]"
                 />
-
-                <div @click="goRegister" style="float: left; color: #38b9fa; font-size: 14px; margin-left: 6%;">
-                    没有账号，立即注册
+                <van-field
+                    v-model="checkPassword"
+                    type="password"
+                    placeholder="请再次输入密码"
+                    autocomplete="off"
+                    :rules="[{ required: true, message: '请输入密码', trigger: 'onSubmit' }]"
+                />
+                <div @click="router.push('/user/login')"
+                     style="float: right; color: #38b9fa; font-size: 14px; margin-right: 8%;">
+                    已有账号，立即登陆
                 </div>
-                <div @click="showHasQuestion" style="float: right; color: darkgray; font-size: 14px; margin-right: 2%;">
-                    登陆遇到问题？
-                </div>
-                <div style="width:88%; margin: 0 auto; padding-top: 35px">
+                <div style="width:88%; margin: 0 auto; padding-top: 40px">
                     <van-button style="border-radius: 10px" color="linear-gradient(to right, #ff6034, #ee0a24)" block
                                 :disabled="isEnableBtn"
                                 type="primary" native-type="submit">
-                        登陆
+                        注册
                     </van-button>
                 </div>
             </van-form>
         </div>
-
-
-        <!-- 圆角弹窗（居中） -->
-        <van-popup v-model:show="showWx">
-            <van-image
-                width="300"
-                height="300"
-                src="https://s1.ax1x.com/2023/07/15/pC5dhPx.jpg"
-            />
-        </van-popup>
-
     </div>
 </template>
 
@@ -56,7 +49,7 @@
 import {useRoute, useRouter} from "vue-router";
 import {ref, watchEffect} from "vue";
 // @ts-ignore
-import {userLogin} from "../services/user.ts";
+import {userLogin, userRegister} from "../services/user.ts";
 import {showConfirmDialog, showFailToast, showSuccessToast} from "vant";
 
 const route = useRoute();
@@ -64,47 +57,36 @@ const router = useRouter();
 
 const userAccount = ref('');
 const userPassword = ref('');
+const checkPassword = ref('');
 const isEnableBtn = ref(true);
-const showWx = ref(false);
 
 const onSubmit = async () => {
-    await userLogin({
+    await userRegister({
         userAccount: userAccount.value,
-        userPassword: userPassword.value
+        userPassword: userPassword.value,
+        checkPassword: checkPassword.value
     }).then((res: any) => {
         if (res.code === 0 && res.data) {
-            showSuccessToast("登陆成功")
+            showSuccessToast("注册成功")
             // 跳转到之前的页面
-            window.location.href = route.query?.redirect as string ?? '/';
+            router.push("/user/login")
         } else {
-            showFailToast(res.description ? res.description : "登录失败")
+            showFailToast(res.description ? res.description : "注册失败")
         }
     })
 };
-
-/**
- * 跳转注册页面
- */
-const goRegister = () => {
-    router.push("/user/register")
-}
 
 /**
  * 点击 登陆遇到问题？
  */
 const showHasQuestion = () => {
     showConfirmDialog({
-        message: '系统问题请联系开发者wx:Hyer-z\n（虽然联系他也不会理你，哈哈哈~）',
+        message: '系统问题请联系开发者。',
         theme: 'round-button',
-        confirmButtonText: '联系开发者',
-        showCancelButton: false,
     }).then(() => {
         // on confirm
-        showWx.value = true
-        // window.location.href = "https://s1.ax1x.com/2023/07/15/pC5d328.jpg"
-        // window.location.href = "https://yupao-project-ichensw.oss-cn-hangzhou.aliyuncs.com/1689404487192.jpg"
+        // window.location.href =
     }).catch(() => {
-        showWx.value = false
         // on cancel
     })
 }

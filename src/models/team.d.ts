@@ -26,3 +26,10 @@ export type JoinTeamType = {
     teamId: number;
     password?: string;
 };
+
+/**
+ * 退出房间类别
+ */
+export type QuitTeamType = {
+    teamId: number;
+};

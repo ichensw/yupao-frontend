@@ -15,9 +15,10 @@
             <van-tab title="私有" name="1"/>
         </van-tabs>
         <div class="card-body">
-            <friend-card-list :status="parseInt(active)" :teamList="teamList" />
+            <friend-card-list v-if="teamList.length > 0" :status="parseInt(active)" :teamList="teamList"/>
+            <van-empty v-if="teamList.length === 0" description="暂无聊天室"/>
         </div>
-<!--        <team-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam"/>-->
+        <!--        <team-card-list :status="active" :teamList="teamList" @refreshTeamList="listTeam"/>-->
         <van-empty v-show="isDataEmpty" description="数据为空"/>
     </div>
 </template>

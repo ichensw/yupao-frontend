@@ -1,6 +1,9 @@
 <template>
     <div class="card-body">
-        <message-card-list v-for="message in messageList" :message="message" :key="message.messageId"  :loading="loading"/>
+        <message-card-list v-if="messageList.length > 0" v-for="message in messageList" :message="message"
+                           :key="message.messageId"
+                           :loading="loading"/>
+        <van-empty v-if="messageList.length === 0" description="暂无消息"/>
     </div>
 </template>
 

@@ -3,9 +3,9 @@
         <van-cell title="头像" is-link size="large" style="align-items: center">
             <van-uploader :after-read="afterRead">
                 <van-image
-                        round
-                        height="40px"
-                        :src="user.avatarUrl"
+                    round
+                    height="40px"
+                    :src="user.avatarUrl"
                 />
             </van-uploader>
         </van-cell>
@@ -14,7 +14,8 @@
                   @click="toEdit('username', '昵称', user.username)"/>
         <van-cell title="账号" size="large" :value="user.userAccount"/>
 
-        <van-cell title="性别" size="large" is-link :value="user.gender === 1 ? '男' : '女'" @click="toEdit('gender', '性别', user.gender)"/>
+        <van-cell title="性别" size="large" is-link :value="user.gender === 1 ? '男' : '女'"
+                  @click="toEdit('gender', '性别', user.gender)"/>
         <van-cell title="电话" size="large" is-link to="/user/edit" :value="user.phone"
                   @click="toEdit('phone', '电话', user.phone)"/>
         <van-cell title="邮箱" size="large" is-link to="/user/edit" :value="user.email"
@@ -75,7 +76,7 @@ const afterRead = async (file: any) => {
     await imageUpload(formData).then(res => {
         console.log(res)
         if (res?.code === 0) {
-            user.value.avatarUrl =  res.data.url
+            user.value.avatarUrl = res.data.url
         } else {
             file.status = 'failed';
             file.message = '上传失败';

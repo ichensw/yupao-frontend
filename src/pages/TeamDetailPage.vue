@@ -14,15 +14,15 @@
             <van-cell title="创建时间" class="last-cell"
                       :value="moment(team.createTime).format('YYYY-MM-DD HH:mm:ss')"/>
             <van-button
-                    v-if="!isDetail"
-                    color="linear-gradient(to right, #ff6034, #ee0a24)" @click="doJoinTeam"
-                    style="width: 90%; margin: 0 auto" block>
+                v-if="!isDetail"
+                color="linear-gradient(to right, #ff6034, #ee0a24)" @click="doJoinTeam"
+                style="width: 90%; margin: 0 auto" block>
                 加入聊天室
             </van-button>
             <van-button
-                    v-if="isDetail"
-                    color="linear-gradient(to right, #ff6034, #ee0a24)" @click="doJoinTeam"
-                    style="width: 90%; margin: 0 auto" block>
+                v-if="isDetail"
+                color="linear-gradient(to right, #ff6034, #ee0a24)" @click="doExitTeam"
+                style="width: 90%; margin: 0 auto" block>
                 退出聊天室
             </van-button>
         </van-cell-group>
@@ -33,7 +33,7 @@
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import moment from "moment";
-import {joinTeam} from "../services/team";
+import {joinTeam, quitTeam} from "../services/team";
 
 const team = ref();
 const isDetail = ref();
@@ -43,11 +43,12 @@ const route = useRoute();
 
 onMounted(() => {
     team.value = JSON.parse(decodeURIComponent(<string>route.query.team));
+    console.log(team.value);
     isDetail.value = route.query.isDetail
 })
 
 const doJoinTeam = async () => {
-    // TODO: 加入队伍 -> 跳转聊天室
+    // 加入队伍 -> 跳转聊天室
     await joinTeam(team.value).then((res) => {
         if (res?.code === 0) {
             // 进入聊天室界面，建立ws连接
@@ -59,6 +60,16 @@ const doJoinTeam = async () => {
                     status: team.value.status
                 }
             })
+        }
+    });
+}
+const doExitTeam = async () => {
+    // TODO: 退出队伍 -> 跳转消息首页
+    await quitTeam({
+        teamId: team.value.teamId
+    }).then((res) => {
+        if (res?.code === 0 && res.data) {
+            router.push("/message")
         }
     });
 }

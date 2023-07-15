@@ -1,8 +1,9 @@
 import request from "../plugins/request";
-import {JoinTeamType} from "../models/team";
+import {JoinTeamType, QuitTeamType} from "../models/team";
 
 const teamApi = {
     joinTeam: "/team/join",
+    quitTeam: "/team/quit",
     listMyJoinTeam: "/team/list/my/join",
     getTeamById: "/team/get",
 }
@@ -11,6 +12,13 @@ const teamApi = {
 export function joinTeam(parameter: JoinTeamType) {
     return request({
         url: teamApi.joinTeam,
+        method: 'post',
+        data: parameter
+    })
+}
+export function quitTeam(parameter: QuitTeamType) {
+    return request({
+        url: teamApi.quitTeam,
         method: 'post',
         data: parameter
     })

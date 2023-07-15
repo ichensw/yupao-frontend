@@ -16,3 +16,11 @@ export type UserType = {
     tags: string;
     createTime: Date;
 };
+/**
+ * 用户类别
+ */
+export type UserRegisterType = {
+    userAccount: string;
+    userPassword: string;
+    checkPassword: string;
+};

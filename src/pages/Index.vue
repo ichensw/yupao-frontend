@@ -71,6 +71,9 @@ const changeMatchMode = (modeFlag: boolean) => {
     if (modeFlag) {
         exactMatching()
     } else {
+        userList.value = []
+        loading.value = true;
+        finished.value = false;
         // 普通列表
         loadData()
     }
@@ -106,11 +109,13 @@ const loadData = async () => {
     // 普通模式，直接分页查询用户
     let userListData = await userRecommend(pageSize, pageNum)
         .then(function (response) {
+            console.log(response)
             return response?.data;
         })
         .catch(function (error) {
             showFailToast('请求失败');
         })
+    console.log("请求数据：", userListData, pageSize, pageNum)
     if (!userListData) {
         isDataEmpty.value = true;
     }

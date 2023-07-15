@@ -1,15 +1,15 @@
 <template>
     <template v-if="user">
         <van-cell title="头像" center>
-        <van-uploader :after-read="afterRead">
+            <van-uploader :after-read="afterRead">
                 <van-image
-                        round
-                        height="3rem"
-                        :src="user.avatarUrl"
+                    round
+                    height="3rem"
+                    :src="user.avatarUrl"
                 >
-                  <template v-slot:error>加载失败</template>
+                    <template v-slot:error>加载失败</template>
                 </van-image>
-        </van-uploader>
+            </van-uploader>
         </van-cell>
 
         <van-cell title="昵称" is-link to="/user/edit" :value="user.username"
@@ -24,9 +24,9 @@
                   @click="toEdit('email', '邮箱', user.email)"/>
         <!--            <van-cell title="注册时间" :value="moment(user.createTime).format('YYYY-MM-DD HH:mm:ss')"/>-->
         <van-popup
-                v-model:show="showSelectSex"
-                round
-                :style="{ height: '20%', width: '80%' }"
+            v-model:show="showSelectSex"
+            round
+            :style="{ height: '20%', width: '80%' }"
         >
             <van-radio-group v-model="user.gender" style="margin-top: 5%;">
                 <van-cell-group inset>
@@ -83,7 +83,7 @@ const afterRead = async (file: any) => {
     await imageUpload(formData).then(res => {
         console.log(res)
         if (res?.code === 0) {
-            user.value.avatarUrl =  res.data.url
+            user.value.avatarUrl = res.data.url
         } else {
             file.status = 'failed';
             file.message = '上传失败';
